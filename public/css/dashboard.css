@@ -1,0 +1,340 @@
+/* 13.41 Dashboard Styles */
+/* ---------------------- */
+
+/* 01. Global */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+  background:
+    linear-gradient(
+      135deg,
+      #050816,
+      #0b1228,
+      #111a35
+    );
+  color: #f5f7ff;
+}
+
+/* 02. Header */
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 5%;
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.1);
+  background:
+    rgba(5, 8, 22, 0.78);
+  backdrop-filter: blur(14px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.brand p {
+  margin: 5px 0 0;
+  color: #aeb8d6;
+  font-size: 0.85rem;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+#userEmail {
+  color: #cbd4f3;
+  font-size: 0.9rem;
+}
+
+/* 03. Buttons */
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #ffffff;
+  background:
+    rgba(42, 115, 255, 0.85);
+}
+
+button:hover {
+  opacity: 0.88;
+}
+
+/* 04. Main Container */
+
+.dashboard-container {
+  width: min(1200px, 90%);
+  margin: 0 auto;
+  padding: 35px 0 60px;
+}
+
+/* 05. Welcome */
+
+.welcome-section {
+  margin-bottom: 28px;
+}
+
+.welcome-section h2 {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+}
+
+.welcome-section p {
+  margin: 0;
+  color: #aeb8d6;
+}
+
+/* 06. Statistics */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  padding: 22px;
+  border:
+    1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background:
+    rgba(255, 255, 255, 0.055);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.stat-label {
+  display: block;
+  color: #aeb8d6;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-size: 1.65rem;
+}
+
+/* 07. Dashboard Sections */
+
+.dashboard-section {
+  margin-top: 25px;
+  padding: 22px;
+  border:
+    1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background:
+    rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+
+.section-header {
+  margin-bottom: 18px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* 08. Tables */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+th,
+td {
+  padding: 13px 12px;
+  text-align: left;
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.08);
+}
+
+th {
+  color: #aeb8d6;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+td {
+  color: #e7ebfa;
+  font-size: 0.9rem;
+}
+
+/* 09. Rounds */
+
+.rounds-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.round-card {
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  background:
+    rgba(255, 255, 255, 0.055);
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+}
+
+.round-multiplier {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.round-id {
+  display: block;
+  margin-top: 5px;
+  color: #9da8ca;
+  font-size: 0.75rem;
+}
+
+/* 10. Status */
+
+.status-correct {
+  font-weight: 700;
+}
+
+.status-incorrect {
+  font-weight: 700;
+}
+
+.loading {
+  color: #aeb8d6;
+  padding: 20px 0;
+}
+
+/* 11. Responsive */
+
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .rounds-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .user-area {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dashboard-container {
+    width: 94%;
+    padding-top: 25px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rounds-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-section {
+    padding: 16px;
+  }
+}
+
+/* 13.92 Prediction Status Styling */
+
+.status-summary-section {
+  margin-top: 2rem;
+}
+
+.status-summary-section .section-heading {
+  margin-bottom: 1rem;
+}
+
+.status-summary-section .section-heading h2 {
+  margin-bottom: 0.35rem;
+}
+
+.status-summary-section .section-heading p {
+  margin: 0;
+  opacity: 0.7;
+}
+
+.status-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.status-card {
+  padding: 1.25rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: center;
+}
+
+.status-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.status-card strong {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .status-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="ELOC Aviator Predictor administration dashboard."
+  >
+
+  <title>ELOC Aviator Predictor — Admin</title>
+
+  <link
+    rel="stylesheet"
+    href="/css/admin.css"
+  >
+</head>
+
+<body>
+
+  <!-- 01. Admin Header -->
+
+  <header class="admin-header">
+
+    <div class="brand">
+      ELOC AVIATOR PREDICTOR
+    </div>
+
+    <div class="admin-header-actions">
+
+      <span
+        id="adminConnectionStatus"
+        class="connection-status"
+      >
+        Checking...
+      </span>
+
+      <button
+        id="liveButton"
+        type="button"
+      >
+        Live
+      </button>
+
+      <button
+        id="logoutButton"
+        type="button"
+      >
+        Logout
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- 02. Main Admin Dashboard -->
+
+  <main class="admin-container">
+
+    <section class="admin-heading">
+
+      <div>
+
+        <span class="section-label">
+          Administration
+        </span>
+
+        <h1>
+          Admin Dashboard
+        </h1>
+
+        <p id="adminWelcome">
+          Loading administrator information...
+        </p>
+
+      </div>
+
+    </section>
+
+    <!-- 03. System Summary -->
+
+    <section class="summary-grid">
+
+      <article class="summary-card">
+
+        <span>
+          Total Users
+        </span>
+
+        <strong id="totalUsers">
+          —
+        </strong>
+
+      </article>
+
+      <article class="summary-card">
+
+        <span>
+          Active Users
+        </span>
+
+        <strong id="activeUsers">
+          —
+        </strong>
+
+      </article>
+
+      <article class="summary-card">
+
+        <span>
+          Administrators
+        </span>
+
+        <strong id="adminUsers">
+          —
+        </strong>
+
+      </article>
+
+      <article class="summary-card">
+
+        <span>
+          Audit Events
+        </span>
+
+        <strong id="auditEvents">
+          —
+        </strong>
+
+      </article>
+
+    </section>
+
+    <!-- 04. User Management -->
+
+    <section class="admin-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <h2>
+            User Management
+          </h2>
+
+          <p>
+            Monitor and manage registered accounts.
+          </p>
+
+        </div>
+
+        <button
+          id="refreshUsersButton"
+          type="button"
+        >
+          Refresh
+        </button>
+
+      </div>
+
+      <div
+        id="usersMessage"
+        class="message"
+      >
+        Loading users...
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                ID
+              </th>
+
+              <th>
+                Email
+              </th>
+
+              <th>
+                Role
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th>
+                Actions
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody id="usersTableBody">
+
+            <tr>
+
+              <td colspan="5">
+                Loading...
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+    <!-- 05. Performance Monitoring -->
+
+    <section class="admin-section">
+
+      <div class="section-heading">
+        <div>
+          <h2>
+            Performance Monitoring
+          </h2>
+
+          <p>
+            Objective monitoring of evaluated prediction performance.
+          </p>
+        </div>
+
+        <button
+          id="refreshPerformanceButton"
+          type="button"
+        >
+          Refresh
+        </button>
+      </div>
+
+      <div
+        id="performanceWarning"
+        class="message"
+      >
+        Loading performance data...
+      </div>
+
+      <div class="summary-grid">
+
+        <article class="summary-card">
+          <span>
+            Evaluated Predictions
+          </span>
+
+          <strong id="performanceTotal">
+            —
+          </strong>
+        </article>
+
+        <article class="summary-card">
+          <span>
+            Accuracy
+          </span>
+
+          <strong id="performanceAccuracy">
+            —
+          </strong>
+        </article>
+
+        <article class="summary-card">
+          <span>
+            Average Error
+          </span>
+
+          <strong id="performanceAverageError">
+            —
+          </strong>
+        </article>
+
+        <article class="summary-card">
+          <span>
+            Average Confidence
+          </span>
+
+          <strong id="performanceAverageConfidence">
+            —
+          </strong>
+        </article>
+
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Evaluated</th>
+              <th>Correct</th>
+              <th>Incorrect</th>
+              <th>Accuracy</th>
+              <th>Avg Error</th>
+            </tr>
+          </thead>
+
+          <tbody id="performanceTableBody">
+
+            <tr>
+              <td colspan="6">
+                Loading...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+    <!-- 07. Confidence Performance -->
+
+    <section class="admin-section">
+
+      <div class="section-heading">
+        <div>
+          <h2>
+            Confidence Performance
+          </h2>
+
+          <p>
+            Accuracy grouped by prediction confidence level.
+          </p>
+        </div>
+
+        <button
+          id="refreshConfidenceButton"
+          type="button"
+        >
+          Refresh
+        </button>
+      </div>
+
+      <div
+        id="confidenceMessage"
+        class="message"
+      >
+        Loading confidence performance...
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Confidence Level</th>
+              <th>Predictions</th>
+              <th>Correct</th>
+              <th>Incorrect</th>
+              <th>Accuracy</th>
+            </tr>
+          </thead>
+
+          <tbody id="confidenceTableBody">
+
+            <tr>
+              <td colspan="5">
+                Loading...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+    <!-- 06. Performance Trend -->
+
+    <section class="admin-section">
+
+      <div class="section-heading">
+        <div>
+          <h2>
+            Performance Trend
+          </h2>
+
+          <p>
+            Cumulative performance across evaluated predictions.
+          </p>
+        </div>
+
+        <button
+          id="refreshTrendButton"
+          type="button"
+        >
+          Refresh
+        </button>
+      </div>
+
+      <div
+        id="trendMessage"
+        class="message"
+      >
+        Loading performance trend...
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Prediction</th>
+              <th>Model</th>
+              <th>Predicted</th>
+              <th>Actual</th>
+              <th>Error</th>
+              <th>Result</th>
+              <th>Cumulative Accuracy</th>
+            </tr>
+          </thead>
+
+          <tbody id="trendTableBody">
+
+            <tr>
+              <td colspan="7">
+                Loading...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+    <!-- 05. Audit Logs -->
+
+    <section class="admin-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <h2>
+            Recent Audit Activity
+          </h2>
+
+          <p>
+            Administrative and authentication events.
+          </p>
+
+        </div>
+
+        <button
+          id="refreshAuditButton"
+          type="button"
+        >
+          Refresh
+        </button>
+
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                ID
+              </th>
+
+              <th>
+                User
+              </th>
+
+              <th>
+                Event
+              </th>
+
+              <th>
+                Message
+              </th>
+
+              <th>
+                Time
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody id="auditTableBody">
+
+            <tr>
+
+              <td colspan="5">
+                Loading...
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 06. Admin Interface JavaScript -->
+
+  <script src="/js/admin.js"></script>
+
+</body>
+</html>

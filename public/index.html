@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    ELOC Aviator Predictor — Login
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="/css/login.css"
+  >
+</head>
+
+<body>
+
+  <!-- 01. Login Container -->
+
+  <main class="login-container">
+
+    <section class="login-card">
+
+      <div class="brand">
+        <h1>
+          ELOC Aviator Predictor
+        </h1>
+
+        <p>
+          Statistical Analysis Platform
+        </p>
+      </div>
+
+      <!-- 02. Login Form -->
+
+      <form id="loginForm">
+
+        <div class="form-group">
+
+          <label for="email">
+            Email
+          </label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="Enter your email"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Enter your password"
+            required
+          >
+
+        </div>
+
+        <!-- 03. Error Message -->
+
+        <div
+          id="loginError"
+          class="login-error"
+          role="alert"
+          hidden
+        ></div>
+
+        <!-- 04. Login Button -->
+
+        <button
+          id="loginButton"
+          type="submit"
+        >
+          Login
+        </button>
+
+      </form>
+
+    </section>
+
+  </main>
+
+  <!-- 05. Login JavaScript -->
+
+  <script src="/js/login.js"></script>
+
+</body>
+</html>

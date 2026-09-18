@@ -1,0 +1,208 @@
+/* 14.04 Live Prediction Interface Styling */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #050914;
+  color: #ffffff;
+}
+
+.live-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 9, 20, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.brand {
+  margin-right: auto;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.connection-status {
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.85rem;
+}
+
+#dashboardButton {
+  padding: 0.6rem 1rem;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.live-container {
+  width: min(1200px, calc(100% - 2rem));
+  margin: 2rem auto;
+}
+
+.current-round-card,
+.prediction-panel,
+.round-history-section,
+.analysis-section {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.current-round-card {
+  text-align: center;
+}
+
+.section-label,
+.prediction-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.current-multiplier {
+  display: block;
+  margin: 0.5rem 0;
+  font-size: clamp(3rem, 10vw, 6rem);
+  line-height: 1;
+}
+
+.round-state {
+  opacity: 0.7;
+}
+
+.section-heading {
+  margin-bottom: 1rem;
+}
+
+.section-heading h1,
+.section-heading h2 {
+  margin: 0 0 0.4rem;
+}
+
+.section-heading p {
+  margin: 0;
+  opacity: 0.7;
+}
+
+.prediction-grid,
+.analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.prediction-card,
+.analysis-card {
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.prediction-value {
+  font-size: 1.5rem;
+}
+
+.analysis-card span {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.analysis-card strong {
+  font-size: 1.4rem;
+}
+
+.live-rounds {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+}
+
+.round-item {
+  padding: 1rem;
+  border-radius: 14px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.round-item strong {
+  display: block;
+  font-size: 1.25rem;
+}
+
+.round-item span {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.loading {
+  padding: 1.5rem;
+  text-align: center;
+  opacity: 0.65;
+}
+
+@media (max-width: 900px) {
+  .prediction-grid,
+  .analysis-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .live-rounds {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .live-header {
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    width: 100%;
+  }
+
+  .live-container {
+    width: min(100% - 1rem, 1200px);
+    margin: 1rem auto;
+  }
+
+  .current-round-card,
+  .prediction-panel,
+  .round-history-section,
+  .analysis-section {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .prediction-grid,
+  .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .live-rounds {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

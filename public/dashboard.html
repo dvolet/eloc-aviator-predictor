@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    ELOC Aviator Predictor — Dashboard
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="/css/dashboard.css"
+  >
+</head>
+
+<body>
+
+  <!-- 01. Dashboard Header -->
+
+  <header class="dashboard-header">
+
+    <div class="brand">
+      <h1>
+        ELOC Aviator Predictor
+      </h1>
+
+      <p>
+        Statistical Analysis Dashboard
+      </p>
+    </div>
+
+    <div class="user-area">
+      <span id="userEmail">
+        Loading...
+      </span>
+
+      <button
+        id="logoutButton"
+        type="button"
+      >
+        Logout
+      </button>
+    </div>
+
+  </header>
+
+  <!-- 02. Main Dashboard -->
+
+  <main class="dashboard-container">
+
+    <!-- 03. Welcome Section -->
+
+    <section class="welcome-section">
+
+      <h2>
+        Welcome
+      </h2>
+
+      <p id="welcomeMessage">
+        Loading dashboard...
+      </p>
+
+    </section>
+
+    <!-- 04. Statistics Cards -->
+
+    <section class="stats-grid">
+
+      <article class="stat-card">
+
+        <span class="stat-label">
+          Accuracy
+        </span>
+
+        <strong
+          id="accuracyValue"
+          class="stat-value"
+        >
+          —
+        </strong>
+
+      </article>
+
+      <article class="stat-card">
+
+        <span class="stat-label">
+          Predictions
+        </span>
+
+        <strong
+          id="predictionCount"
+          class="stat-value"
+        >
+          —
+        </strong>
+
+      </article>
+
+      <article class="stat-card">
+
+        <span class="stat-label">
+          Correct
+        </span>
+
+        <strong
+          id="correctCount"
+          class="stat-value"
+        >
+          —
+        </strong>
+
+      </article>
+
+      <article class="stat-card">
+
+        <span class="stat-label">
+          Avg. Confidence
+        </span>
+
+        <strong
+          id="confidenceValue"
+          class="stat-value"
+        >
+          —
+        </strong>
+
+      </article>
+
+      <article class="stat-card">
+
+        <span class="stat-label">
+          Average Error
+        </span>
+
+        <strong
+          id="averageErrorValue"
+          class="stat-value"
+        >
+          —
+        </strong>
+
+      </article>
+
+      <article class="stat-card">
+
+        <span class="stat-label">
+          Average % Error
+        </span>
+
+        <strong
+          id="averagePercentageErrorValue"
+          class="stat-value"
+        >
+          —
+        </strong>
+
+      </article>
+
+    </section>
+
+    <!-- 05. Recent Predictions -->
+
+    <section class="dashboard-section">
+
+      <div class="section-header">
+
+        <h2>
+          Recent Predictions
+        </h2>
+
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>ID</th>
+              <th>Model</th>
+              <th>Predicted</th>
+              <th>Actual</th>
+              <th>Confidence</th>
+              <th>Status</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="predictionsTable">
+
+            <tr>
+              <td colspan="6">
+                Loading predictions...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+    <!-- 06. Recent Rounds -->
+
+    <section class="dashboard-section">
+
+      <div class="section-header">
+
+        <h2>
+          Recent Rounds
+        </h2>
+
+      </div>
+
+      <div
+        id="roundsGrid"
+        class="rounds-grid"
+      >
+
+        <div class="loading">
+          Loading rounds...
+        </div>
+
+      </div>
+
+    </section>
+
+  
+
+    <!-- 13.72 Prediction Status Summary -->
+
+<section class="status-summary-section">
+
+  <div class="section-heading">
+    <h2>Prediction Status</h2>
+    <p>Summary of evaluated prediction results.</p>
+  </div>
+
+  <div class="status-summary-grid">
+
+    <article class="status-card">
+      <span class="status-label">Correct</span>
+      <strong id="statusCorrectCount">—</strong>
+    </article>
+
+    <article class="status-card">
+      <span class="status-label">Incorrect</span>
+      <strong id="statusIncorrectCount">—</strong>
+    </article>
+
+    <article class="status-card">
+      <span class="status-label">Pending</span>
+      <strong id="statusPendingCount">—</strong>
+    </article>
+
+  </div>
+
+</section>
+
+  </main>
+
+  <!-- 07. Dashboard JavaScript -->
+
+  <script src="/js/dashboard.js"></script>
+
+</body>
+
+
+</html>

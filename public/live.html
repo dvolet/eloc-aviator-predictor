@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="ELOC Aviator Predictor live prediction interface."
+  >
+
+  <title>ELOC Aviator Predictor — Live</title>
+
+  <link
+    rel="stylesheet"
+    href="/css/live.css"
+  >
+
+</head>
+
+<body>
+
+  <!-- 01. Live Header -->
+
+  <header class="live-header">
+
+    <div class="brand">
+      ELOC AVIATOR PREDICTOR
+    </div>
+
+    <div
+      id="connectionStatus"
+      class="connection-status"
+    >
+      Connecting...
+    </div>
+
+    <button
+      id="dashboardButton"
+      type="button"
+    >
+      Dashboard
+    </button>
+
+  </header>
+
+  <!-- 02. Main Live Interface -->
+
+  <main class="live-container">
+
+    <!-- 03. Current Round -->
+
+    <section class="current-round-card">
+
+      <span class="section-label">
+        Current Round
+      </span>
+
+      <strong
+        id="currentMultiplier"
+        class="current-multiplier"
+      >
+        —
+      </strong>
+
+      <span
+        id="roundState"
+        class="round-state"
+      >
+        Waiting for round...
+      </span>
+
+    </section>
+
+    <!-- 04. Prediction Panel -->
+
+    <section class="prediction-panel">
+
+      <div class="section-heading">
+
+        <h1>
+          Live Prediction
+        </h1>
+
+        <p>
+          Statistical model output based on available round data.
+        </p>
+
+      </div>
+
+      <div class="prediction-grid">
+
+        <article class="prediction-card">
+
+          <span class="prediction-label">
+            Predicted Multiplier
+          </span>
+
+          <strong
+            id="predictedMultiplier"
+            class="prediction-value"
+          >
+            —
+          </strong>
+
+        </article>
+
+        <article class="prediction-card">
+
+          <span class="prediction-label">
+            Confidence
+          </span>
+
+          <strong
+            id="predictionConfidence"
+            class="prediction-value"
+          >
+            —
+          </strong>
+
+        </article>
+
+        <article class="prediction-card">
+
+          <span class="prediction-label">
+            Model
+          </span>
+
+          <strong
+            id="predictionModel"
+            class="prediction-value"
+          >
+            —
+          </strong>
+
+        </article>
+
+        <article class="prediction-card">
+
+          <span class="prediction-label">
+            Prediction Status
+          </span>
+
+          <strong
+            id="predictionStatus"
+            class="prediction-value"
+          >
+            Waiting
+          </strong>
+
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- 05. Recent Live Rounds -->
+
+    <section class="round-history-section">
+
+      <div class="section-heading">
+
+        <h2>
+          Recent Rounds
+        </h2>
+
+        <p>
+          Latest recorded multipliers.
+        </p>
+
+      </div>
+
+      <div
+        id="liveRounds"
+        class="live-rounds"
+      >
+
+        <div class="loading">
+          Waiting for round data...
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- 06. Statistical Information -->
+
+    <section class="analysis-section">
+
+      <div class="section-heading">
+
+        <h2>
+          Statistical Analysis
+        </h2>
+
+      </div>
+
+      <div class="analysis-grid">
+
+        <article class="analysis-card">
+
+          <span>
+            Sample Size
+          </span>
+
+          <strong id="sampleSize">
+            —
+          </strong>
+
+        </article>
+
+        <article class="analysis-card">
+
+          <span>
+            Average Multiplier
+          </span>
+
+          <strong id="averageMultiplier">
+            —
+          </strong>
+
+        </article>
+
+        <article class="analysis-card">
+
+          <span>
+            Lowest
+          </span>
+
+          <strong id="lowestMultiplier">
+            —
+          </strong>
+
+        </article>
+
+        <article class="analysis-card">
+
+          <span>
+            Highest
+          </span>
+
+          <strong id="highestMultiplier">
+            —
+          </strong>
+
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 07. Live Interface JavaScript -->
+
+  <script src="/js/live.js"></script>
+
+</body>
+
+</html>
