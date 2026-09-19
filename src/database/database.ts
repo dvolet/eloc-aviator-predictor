@@ -2,7 +2,10 @@ import Database from "better-sqlite3";
 import path from "node:path";
 import fs from "node:fs";
 
-const DATA_DIRECTORY = path.resolve("data");
+const DATA_DIRECTORY = path.resolve(
+  process.env.DATABASE_DIRECTORY ?? "data"
+);
+
 const DATABASE_PATH = path.join(DATA_DIRECTORY, "aviator.db");
 
 if (!fs.existsSync(DATA_DIRECTORY)) {
@@ -16,4 +19,3 @@ db.pragma("foreign_keys = ON");
 export function closeDatabase(): void {
   db.close();
 }
-
