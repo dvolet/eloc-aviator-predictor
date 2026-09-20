@@ -394,9 +394,49 @@ const dashboardButton =
 if (dashboardButton) {
   dashboardButton.addEventListener(
     "click",
-    () => {
-      window.location.href =
-        "/dashboard.html";
+    async () => {
+      const token =
+        localStorage.getItem(
+          "eloc_session_token"
+        );
+
+      if (!token) {
+        window.location.href = "/";
+        return;
+      }
+
+      try {
+        const response =
+          await fetch(
+            "/api/admin/test",
+            {
+              headers: {
+                Authorization:
+                  `Bearer ${token}`
+              }
+            }
+          );
+
+        if (response.ok) {
+          window.location.href =
+            "/admin.html";
+          return;
+        }
+
+        if (response.status === 401) {
+          localStorage.removeItem(
+            "eloc_session_token"
+          );
+          window.location.href = "/";
+          return;
+        }
+
+        window.location.href =
+          "/dashboard.html";
+      } catch {
+        window.location.href =
+          "/dashboard.html";
+      }
     }
   );
 }
