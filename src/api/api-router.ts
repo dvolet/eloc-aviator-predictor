@@ -70,6 +70,15 @@ import {
 } from "../auth/login-service.js";
 
 import {
+  registerUser,
+  registerAdmin
+} from "../auth/registration-service.js";
+
+import {
+  registerInitialAdmin
+} from "../auth/initial-admin-service.js";
+
+import {
   requireAuthentication,
   type AuthenticatedRequest
 } from "../auth/auth-middleware.js";
@@ -847,6 +856,148 @@ apiRouter.get(
 );
 // 12.11 Authentication API Routes
 // --------------------------------
+
+apiRouter.post(
+  "/auth/setup-admin",
+  async (req, res) => {
+    try {
+      const {
+        email,
+        password
+      } = req.body;
+
+      if (
+        typeof email !== "string" ||
+        typeof password !== "string"
+      ) {
+        res.status(400).json({
+          success: false,
+          error:
+            "Email and password are required"
+        });
+
+        return;
+      }
+
+      const user =
+        await registerInitialAdmin(
+          email,
+          password
+        );
+
+      res.status(201).json({
+        success: true,
+        user
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Initial administrator setup failed";
+
+      const status =
+        message ===
+        "Initial administrator setup is already complete"
+          ? 403
+          : 400;
+
+      res.status(status).json({
+        success: false,
+        error: message
+      });
+    }
+  }
+);
+
+apiRouter.post(
+  "/auth/register",
+  async (req, res) => {
+    try {
+      const {
+        email,
+        password
+      } = req.body;
+
+      if (
+        typeof email !== "string" ||
+        typeof password !== "string"
+      ) {
+        res.status(400).json({
+          success: false,
+          error:
+            "Email and password are required"
+        });
+
+        return;
+      }
+
+      const user =
+        await registerUser(
+          email,
+          password
+        );
+
+      res.status(201).json({
+        success: true,
+        user
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Registration failed"
+      });
+    }
+  }
+);
+
+apiRouter.post(
+  "/auth/admin-register",
+  requireAuthentication,
+  requireRole("admin"),
+  async (req, res) => {
+    try {
+      const {
+        email,
+        password
+      } = req.body;
+
+      if (
+        typeof email !== "string" ||
+        typeof password !== "string"
+      ) {
+        res.status(400).json({
+          success: false,
+          error:
+            "Email and password are required"
+        });
+
+        return;
+      }
+
+      const user =
+        await registerAdmin(
+          email,
+          password
+        );
+
+      res.status(201).json({
+        success: true,
+        user
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Admin registration failed"
+      });
+    }
+  }
+);
 
 apiRouter.post(
   "/auth/login",

@@ -164,3 +164,18 @@ export function findUserByEmail(
       row.updated_at
   };
 }
+
+export function getUserCount(): number {
+  const statement =
+    db.prepare(`
+      SELECT COUNT(*) AS count
+      FROM users
+    `);
+
+  const row =
+    statement.get() as {
+      count: number;
+    };
+
+  return Number(row.count);
+}

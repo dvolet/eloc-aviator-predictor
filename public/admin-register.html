@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    ELOC Aviator Predictor — Admin Registration
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="/css/login.css"
+  >
+</head>
+
+<body>
+
+  <!-- 01. Admin Registration Container -->
+
+  <main class="login-container">
+
+    <section class="login-card">
+
+      <div class="brand">
+        <h1>
+          ELOC Aviator Predictor
+        </h1>
+
+        <p>
+          Administrator Registration
+        </p>
+      </div>
+
+      <!-- 02. Admin Registration Form -->
+
+      <form id="adminRegisterForm">
+
+        <div class="form-group">
+
+          <label for="email">
+            Admin Email
+          </label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="Enter administrator email"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Create administrator password"
+            minlength="9"
+            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="confirmPassword">
+            Confirm Password
+          </label>
+
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Confirm administrator password"
+            minlength="9"
+            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
+            required
+          >
+
+        </div>
+
+        <!-- 03. Registration Message -->
+
+        <div
+          id="adminRegisterMessage"
+          class="login-error"
+          role="alert"
+          hidden
+        ></div>
+
+        <!-- 04. Registration Button -->
+
+        <button
+          id="adminRegisterButton"
+          type="submit"
+        >
+          Create Administrator
+        </button>
+
+      </form>
+
+      <!-- 05. Admin Dashboard Link -->
+
+      <div class="registration-link">
+        <p>
+          <a href="/admin.html">
+            Back to Admin Dashboard
+          </a>
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 06. Admin Registration JavaScript -->
+
+  <script src="/js/admin-register.js"></script>
+
+</body>
+</html>

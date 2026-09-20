@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+  <title>Initial Administrator Setup</title>
+
+  <link
+    rel="stylesheet"
+    href="/css/login.css"
+  >
+</head>
+
+<body>
+  <main class="login-container">
+    <section class="login-card">
+      <h1>Initial Administrator Setup</h1>
+
+      <p>
+        Create the first administrator account for
+        ELOC Aviator Predictor.
+      </p>
+
+      <form id="setupAdminForm">
+        <div class="form-group">
+          <label for="email">
+            Administrator Email
+          </label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">
+            Password
+          </label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            minlength="9"
+            autocomplete="new-password"
+            required
+          >
+
+          <small>
+            Minimum 9 characters with at least 1 uppercase
+            letter, 1 lowercase letter, 1 number, and
+            1 symbol.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">
+            Confirm Password
+          </label>
+
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            minlength="9"
+            autocomplete="new-password"
+            required
+          >
+        </div>
+
+        <p
+          id="setupMessage"
+          role="alert"
+          aria-live="polite"
+        ></p>
+
+        <button
+          id="setupButton"
+          type="submit"
+        >
+          Create Administrator
+        </button>
+      </form>
+
+      <div class="registration-link">
+        <p>
+          Return to
+          <a href="/">
+            Login
+          </a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script
+    src="/js/setup-admin.js"
+  ></script>
+</body>
+</html>

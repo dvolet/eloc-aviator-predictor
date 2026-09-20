@@ -9,7 +9,7 @@
   >
 
   <title>
-    ELOC Aviator Predictor — Login
+    ELOC Aviator Predictor — User Registration
   </title>
 
   <link
@@ -20,7 +20,7 @@
 
 <body>
 
-  <!-- 01. Login Container -->
+  <!-- 01. Registration Container -->
 
   <main class="login-container">
 
@@ -32,13 +32,13 @@
         </h1>
 
         <p>
-          Statistical Analysis Platform
+          Create your user account
         </p>
       </div>
 
-      <!-- 02. Login Form -->
+      <!-- 02. Registration Form -->
 
-      <form id="loginForm">
+      <form id="registerForm">
 
         <div class="form-group">
 
@@ -67,40 +67,61 @@
             id="password"
             name="password"
             type="password"
-            autocomplete="current-password"
-            placeholder="Enter your password"
+            autocomplete="new-password"
+            placeholder="Create a password"
+            minlength="9"
+            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
             required
           >
 
         </div>
 
-        <!-- 03. Error Message -->
+        <div class="form-group">
+
+          <label for="confirmPassword">
+            Confirm Password
+          </label>
+
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Confirm your password"
+            minlength="9"
+            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
+            required
+          >
+
+        </div>
+
+        <!-- 03. Registration Message -->
 
         <div
-          id="loginError"
+          id="registerMessage"
           class="login-error"
           role="alert"
           hidden
         ></div>
 
-        <!-- 04. Login Button -->
+        <!-- 04. Registration Button -->
 
         <button
-          id="loginButton"
+          id="registerButton"
           type="submit"
         >
-          Login
+          Create Account
         </button>
 
       </form>
 
-      <!-- 05. User Registration -->
+      <!-- 05. Login Link -->
 
       <div class="registration-link">
         <p>
-          Don't have an account?
-          <a href="/register.html">
-            Register as a User
+          Already have an account?
+          <a href="/">
+            Login
           </a>
         </p>
       </div>
@@ -109,9 +130,9 @@
 
   </main>
 
-  <!-- 05. Login JavaScript -->
+  <!-- 06. Registration JavaScript -->
 
-  <script src="/js/login.js"></script>
+  <script src="/js/register.js"></script>
 
 </body>
 </html>
