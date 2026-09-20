@@ -4,7 +4,7 @@
  */
 
 import {
-  getUserCount
+  getAdminCount
 } from "./user-service.js";
 
 import {
@@ -15,10 +15,10 @@ export async function registerInitialAdmin(
   email: string,
   password: string
 ) {
-  const userCount =
-    getUserCount();
+  const adminCount =
+    getAdminCount();
 
-  if (userCount > 0) {
+  if (adminCount > 0) {
     throw new Error(
       "Initial administrator setup is already complete"
     );

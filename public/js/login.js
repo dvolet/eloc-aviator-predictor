@@ -33,17 +33,11 @@ const loginError =
     "loginError"
   );
 
-// 03. Redirect Existing Session
+// 03. Existing Session Handling
 
-const existingToken =
-  localStorage.getItem(
-    SESSION_TOKEN_KEY
-  );
-
-if (existingToken) {
-  window.location.href =
-    "/dashboard.html";
-}
+// Do not redirect based only on a stored token.
+// The server determines the authenticated user's role
+// during login.
 
 // 04. Display Error
 

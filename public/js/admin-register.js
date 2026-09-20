@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     button.textContent = "Creating Administrator...";
 
     try {
-      const token = localStorage.getItem("eloc_token");
+      const token = localStorage.getItem("eloc_session_token");
 
       if (!token) {
         window.location.href = "/";
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
 
       if (response.status === 401) {
-        localStorage.removeItem("eloc_token");
+        localStorage.removeItem("eloc_session_token");
         window.location.href = "/";
         return;
       }

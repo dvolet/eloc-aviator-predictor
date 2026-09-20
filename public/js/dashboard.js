@@ -81,8 +81,7 @@ function requireSessionToken() {
     getSessionToken();
 
   if (!token) {
-    window.location.href =
-      "/";
+    window.location.replace("/");
     return null;
   }
 
@@ -212,8 +211,7 @@ function renderAccuracy(
 
   confidenceValueElement.textContent =
     formatPercentage(
-      accuracy.averageConfidence *
-        100
+      accuracy.averageConfidence * 100
     );
 
   averageErrorValueElement.textContent =
@@ -263,7 +261,9 @@ function renderPredictionStatus(
   if (Array.isArray(predictions)) {
     predictions.forEach(
       (prediction) => {
-        if (prediction.is_correct === 1) {
+        if (
+          prediction.is_correct === 1
+        ) {
           correct++;
         } else if (
           prediction.is_correct === 0
@@ -358,7 +358,7 @@ function renderPredictions(
       .join("");
 }
 
-// 11. Render Rounds
+// 12. Render Rounds
 
 function renderRounds(
   rounds
@@ -397,7 +397,7 @@ function renderRounds(
       .join("");
 }
 
-// 12. Load Dashboard
+// 13. Load Dashboard
 
 async function loadDashboard() {
   try {
@@ -441,29 +441,27 @@ async function loadDashboard() {
 
     if (
       error instanceof Error &&
-      error.message.toLowerCase()
+      error.message
+        .toLowerCase()
         .includes("authentication")
     ) {
       localStorage.removeItem(
         SESSION_TOKEN_KEY
       );
 
-      window.location.href =
-        "/";
+      window.location.replace("/");
     }
   }
 }
 
-// 13. Logout
+// 14. Logout
 
 async function logout() {
   const token =
     getSessionToken();
 
   if (!token) {
-    window.location.href =
-      "/";
-
+    window.location.replace("/");
     return;
   }
 
@@ -490,18 +488,32 @@ async function logout() {
       SESSION_TOKEN_KEY
     );
 
-    window.location.href =
-      "/";
+    window.location.replace("/");
   }
 }
 
-// 14. Event Handlers
+// 15. Event Handlers
 
 logoutButton.addEventListener(
   "click",
   logout
 );
 
-// 15. Initialize Dashboard
+// 16. Back-Button / BFCache Protection
 
-loadDashboard();
+window.addEventListener(
+  "pageshow",
+  () => {
+    if (!getSessionToken()) {
+      window.location.replace("/");
+    }
+  }
+);
+
+// 17. Initialize Dashboard
+
+if (getSessionToken()) {
+  loadDashboard();
+} else {
+  window.location.replace("/");
+}

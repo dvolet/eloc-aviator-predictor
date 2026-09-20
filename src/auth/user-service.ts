@@ -165,6 +165,22 @@ export function findUserByEmail(
   };
 }
 
+export function getAdminCount(): number {
+  const statement =
+    db.prepare(`
+      SELECT COUNT(*) AS count
+      FROM users
+      WHERE role = 'admin'
+    `);
+
+  const row =
+    statement.get() as {
+      count: number;
+    };
+
+  return Number(row.count);
+}
+
 export function getUserCount(): number {
   const statement =
     db.prepare(`
