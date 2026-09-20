@@ -8,111 +8,337 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>
-    ELOC Aviator Predictor — Administrator Login
-  </title>
+  <meta
+    name="description"
+    content="Secure ELOC Aviator Predictor administrator login."
+  >
+
+  <title>ELOC Aviator Predictor — Administrator Login</title>
 
   <link
     rel="stylesheet"
-    href="/css/login.css"
+    href="/css/landing.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/css/admin-login.css"
   >
 </head>
 
 <body>
 
-  <!-- 01. Administrator Login Container -->
+  <!-- 01. Administrator Header -->
 
-  <main class="login-container">
+  <header class="admin-auth-header">
 
-    <section class="login-card">
+    <a
+      href="/"
+      class="admin-brand"
+    >
 
-      <div class="brand">
+      <span class="admin-brand-mark">
+        <span></span>
+        <span></span>
+        <span></span>
+        <b>➤</b>
+      </span>
+
+      <span class="admin-brand-text">
+
+        <strong>ELOC</strong>
+
+        <small>
+          Aviator Predictor
+        </small>
+
+      </span>
+
+    </a>
+
+    <div class="admin-portal-label">
+
+      <span class="portal-dot"></span>
+
+      Administrator Portal
+
+    </div>
+
+  </header>
+
+
+  <!-- 02. Administrator Login -->
+
+  <main class="admin-auth-page">
+
+    <section class="admin-auth-layout">
+
+      <!-- 03. Security Information -->
+
+      <div class="admin-auth-intro">
+
+        <span class="admin-eyebrow">
+          SECURE ADMINISTRATION
+        </span>
 
         <h1>
-          ELOC Aviator Predictor
+          Control the
+          <span>Platform.</span>
         </h1>
 
         <p>
-          Administrator Portal
+          Access the ELOC Aviator Predictor
+          administration environment to manage users,
+          monitor system performance and review
+          platform activity.
         </p>
+
+
+        <!-- 04. Security Features -->
+
+        <div class="admin-security-grid">
+
+          <div class="admin-security-item">
+
+            <span class="security-feature-icon">
+              ◆
+            </span>
+
+            <div>
+
+              <strong>
+                Protected Access
+              </strong>
+
+              <small>
+                Administrator authentication required
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <div class="admin-security-item">
+
+            <span class="security-feature-icon">
+              ◈
+            </span>
+
+            <div>
+
+              <strong>
+                User Management
+              </strong>
+
+              <small>
+                Manage authorized platform accounts
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <div class="admin-security-item">
+
+            <span class="security-feature-icon">
+              ◉
+            </span>
+
+            <div>
+
+              <strong>
+                Performance Monitoring
+              </strong>
+
+              <small>
+                Review platform and model performance
+              </small>
+
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
-      <!-- 02. Administrator Login Form -->
 
-      <form id="adminLoginForm">
+      <!-- 05. Login Card -->
 
-        <div class="form-group">
+      <section class="admin-login-card">
 
-          <label for="adminEmail">
-            Administrator Email
-          </label>
+        <div class="admin-card-glow"></div>
 
-          <input
-            id="adminEmail"
-            name="email"
-            type="email"
-            autocomplete="username"
-            placeholder="Enter administrator email"
-            required
-          >
+
+        <!-- 06. Security Icon -->
+
+        <div class="admin-security-icon">
+          ◆
+        </div>
+
+
+        <!-- 07. Card Heading -->
+
+        <div class="admin-card-heading">
+
+          <span>
+            AUTHORIZED ACCESS
+          </span>
+
+          <h2>
+            Administrator Login
+          </h2>
+
+          <p>
+            Sign in with your administrator credentials.
+          </p>
 
         </div>
 
-        <div class="form-group">
 
-          <label for="adminPassword">
-            Password
-          </label>
+        <!-- 08. Login Form -->
 
-          <input
-            id="adminPassword"
-            name="password"
-            type="password"
-            autocomplete="current-password"
-            placeholder="Enter administrator password"
-            required
+        <form id="adminLoginForm">
+
+          <div class="admin-form-group">
+
+            <label for="adminEmail">
+              Administrator Email
+            </label>
+
+            <div class="admin-input-wrapper">
+
+              <span>@</span>
+
+              <input
+                id="adminEmail"
+                name="email"
+                type="email"
+                autocomplete="username"
+                placeholder="Administrator email"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="admin-form-group">
+
+            <label for="adminPassword">
+              Password
+            </label>
+
+            <div class="admin-input-wrapper">
+
+              <span>◆</span>
+
+              <input
+                id="adminPassword"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Administrator password"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- 09. Error -->
+
+          <div
+            id="adminLoginError"
+            class="admin-login-error"
+            role="alert"
+            hidden
+          ></div>
+
+
+          <!-- 10. Login Button -->
+
+          <button
+            id="adminLoginButton"
+            type="submit"
+            class="admin-login-submit"
           >
+
+            <span class="admin-submit-icon">
+              ◆
+            </span>
+
+            <span>
+              Administrator Login
+            </span>
+
+            <b>
+              ›
+            </b>
+
+          </button>
+
+        </form>
+
+
+        <!-- 11. Secure Session Notice -->
+
+        <div class="admin-session-notice">
+
+          <span>
+            ◆
+          </span>
+
+          <p>
+            Secure administrator session.
+            Unauthorized access is restricted.
+          </p>
 
         </div>
 
-        <!-- 03. Error Message -->
 
-        <div
-          id="adminLoginError"
-          class="login-error"
-          role="alert"
-          hidden
-        ></div>
+        <!-- 12. Return to User Login -->
 
-        <!-- 04. Login Button -->
-
-        <button
-          id="adminLoginButton"
-          type="submit"
+        <a
+          href="/"
+          class="admin-user-login"
         >
-          Administrator Login
-        </button>
 
-      </form>
+          <span>
+            ←
+          </span>
 
-      <!-- 05. Navigation -->
+          Back to User Login
 
-      <div class="registration-link">
+        </a>
 
-        <p>
-          <a href="/">
-            Back to User Login
-          </a>
-        </p>
-
-      </div>
+      </section>
 
     </section>
 
   </main>
 
-  <!-- 06. Administrator Login JavaScript -->
+
+  <!-- 13. Footer -->
+
+  <footer class="admin-auth-footer">
+
+    <span>
+      ELOC Aviator Predictor
+    </span>
+
+    <span>
+      Administrator Access
+    </span>
+
+  </footer>
+
+
+  <!-- 14. Administrator Login JavaScript -->
 
   <script src="/js/admin-login.js"></script>
 
