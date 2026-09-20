@@ -8,129 +8,274 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>
-    ELOC Aviator Predictor — User Registration
-  </title>
+  <meta
+    name="description"
+    content="Create your ELOC Aviator Predictor user account."
+  >
+
+  <title>ELOC Aviator Predictor — User Registration</title>
 
   <link
     rel="stylesheet"
-    href="/css/login.css"
+    href="/css/landing.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/css/register.css"
   >
 </head>
 
 <body>
 
-  <!-- 01. Registration Container -->
+  <!-- 01. Registration Header -->
 
-  <main class="login-container">
+  <header class="auth-header">
 
-    <section class="login-card">
+    <a
+      href="/"
+      class="auth-brand"
+    >
 
-      <div class="brand">
-        <h1>
-          ELOC Aviator Predictor
-        </h1>
+      <span class="auth-brand-mark">
+        <span></span>
+        <span></span>
+        <span></span>
+        <b>➤</b>
+      </span>
 
-        <p>
-          Create your user account
-        </p>
-      </div>
+      <span>
+        <strong>ELOC</strong>
+        <small>Aviator Predictor</small>
+      </span>
 
-      <!-- 02. Registration Form -->
+    </a>
 
-      <form id="registerForm">
+    <a
+      href="/"
+      class="auth-back"
+    >
+      ← Back to Login
+    </a>
 
-        <div class="form-group">
+  </header>
 
-          <label for="email">
-            Email
-          </label>
 
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            placeholder="Enter your email"
-            required
-          >
+  <!-- 02. Registration Main -->
+
+  <main class="auth-page">
+
+    <section class="auth-card">
+
+      <!-- 03. Card Header -->
+
+      <div class="auth-card-header">
+
+        <div class="auth-icon user-icon">
+          +
+        </div>
+
+        <div>
+
+          <span class="auth-label">
+            ELOC ACCOUNT
+          </span>
+
+          <h1>
+            Create Your Account
+          </h1>
+
+          <p>
+            Join the ELOC Aviator Predictor platform.
+          </p>
 
         </div>
 
-        <div class="form-group">
+      </div>
+
+
+      <!-- 04. Registration Form -->
+
+      <form id="registerForm">
+
+        <div class="auth-form-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <div class="auth-input">
+
+            <span>@</span>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="Enter your email"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="auth-form-group">
 
           <label for="password">
             Password
           </label>
 
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autocomplete="new-password"
-            placeholder="Create a password"
-            minlength="9"
-            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
-            required
-          >
+          <div class="auth-input">
+
+            <span>◆</span>
+
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Create a password"
+              minlength="9"
+              pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
+              required
+            >
+
+          </div>
 
         </div>
 
-        <div class="form-group">
+
+        <div class="auth-form-group">
 
           <label for="confirmPassword">
             Confirm Password
           </label>
 
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            autocomplete="new-password"
-            placeholder="Confirm your password"
-            minlength="9"
-            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
-            required
-          >
+          <div class="auth-input">
+
+            <span>◆</span>
+
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Confirm your password"
+              minlength="9"
+              pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
+              required
+            >
+
+          </div>
 
         </div>
 
-        <!-- 03. Registration Message -->
+
+        <!-- 05. Password Requirements -->
+
+        <div class="password-requirements">
+
+          <div class="requirements-title">
+            Password requirements
+          </div>
+
+          <div class="requirements-grid">
+
+            <span>✓ 9+ characters</span>
+            <span>✓ Uppercase letter</span>
+            <span>✓ Lowercase letter</span>
+            <span>✓ Number</span>
+            <span>✓ Special character</span>
+
+          </div>
+
+        </div>
+
+
+        <!-- 06. Registration Message -->
 
         <div
           id="registerMessage"
-          class="login-error"
+          class="auth-message"
           role="alert"
           hidden
         ></div>
 
-        <!-- 04. Registration Button -->
+
+        <!-- 07. Create Account -->
 
         <button
           id="registerButton"
           type="submit"
+          class="auth-submit"
         >
-          Create Account
+
+          <span class="auth-submit-icon">
+            +
+          </span>
+
+          <span>
+            Create User Account
+          </span>
+
+          <b>›</b>
+
         </button>
 
       </form>
 
-      <!-- 05. Login Link -->
 
-      <div class="registration-link">
+      <!-- 08. Existing Account -->
+
+      <div class="auth-divider">
+
+        <span></span>
+
+        <small>
+          Already registered?
+        </small>
+
+        <span></span>
+
+      </div>
+
+
+      <a
+        href="/"
+        class="auth-secondary-button"
+      >
+
+        <span>
+          ←
+        </span>
+
+        Sign In to Your Account
+
+      </a>
+
+
+      <!-- 09. Security Notice -->
+
+      <div class="auth-security">
+
+        <span>◆</span>
+
         <p>
-          Already have an account?
-          <a href="/">
-            Login
-          </a>
+          Your account is protected by secure
+          authentication and session controls.
         </p>
+
       </div>
 
     </section>
 
   </main>
 
-  <!-- 06. Registration JavaScript -->
+
+  <!-- 10. Registration JavaScript -->
 
   <script src="/js/register.js"></script>
 
