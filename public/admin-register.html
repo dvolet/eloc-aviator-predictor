@@ -8,128 +8,353 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>
-    ELOC Aviator Predictor — Admin Registration
-  </title>
-
-  <link
-    rel="stylesheet"
-    href="/css/login.css"
+  <meta
+    name="description"
+    content="ELOC Aviator Predictor administrator registration portal."
   >
+
+  <title>ELOC Aviator Predictor — Administrator Registration</title>
+
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="stylesheet" href="/css/admin-register.css">
 </head>
 
 <body>
 
-  <!-- 01. Admin Registration Container -->
+  <!-- 01. Administrator Registration Header -->
 
-  <main class="login-container">
+  <header class="admin-register-header">
 
-    <section class="login-card">
+    <a
+      class="admin-register-brand"
+      href="/admin.html"
+      aria-label="ELOC Administrator Dashboard"
+    >
+      <span class="admin-register-brand-mark">E</span>
 
-      <div class="brand">
+      <span class="admin-register-brand-text">
+        <strong>ELOC</strong>
+        <small>AVIATOR PREDICTOR</small>
+      </span>
+    </a>
+
+    <div class="admin-register-header-badge">
+      <span class="status-dot"></span>
+      Administrator Portal
+    </div>
+
+  </header>
+
+
+  <!-- 02. Administrator Registration Main -->
+
+  <main class="admin-register-main">
+
+    <section class="admin-register-layout">
+
+      <!-- 03. Information Panel -->
+
+      <div class="admin-register-intro">
+
+        <div class="admin-register-eyebrow">
+          <span class="eyebrow-line"></span>
+          ADMINISTRATOR ACCESS
+        </div>
+
         <h1>
-          ELOC Aviator Predictor
+          Create a secure
+          <span>administrator account.</span>
         </h1>
 
-        <p>
-          Administrator Registration
+        <p class="admin-register-description">
+          Add an authorized administrator to the ELOC Aviator
+          Predictor platform and manage platform operations from
+          the administrator dashboard.
         </p>
+
+
+        <!-- 04. Security Features -->
+
+        <div class="admin-register-features">
+
+          <article class="admin-register-feature">
+
+            <div class="feature-icon">
+              <span>01</span>
+            </div>
+
+            <div>
+              <h3>Controlled Access</h3>
+
+              <p>
+                Administrator registration is restricted to
+                authenticated administrators.
+              </p>
+            </div>
+
+          </article>
+
+
+          <article class="admin-register-feature">
+
+            <div class="feature-icon">
+              <span>02</span>
+            </div>
+
+            <div>
+              <h3>Strong Credentials</h3>
+
+              <p>
+                Password requirements help protect privileged
+                administrator accounts.
+              </p>
+            </div>
+
+          </article>
+
+
+          <article class="admin-register-feature">
+
+            <div class="feature-icon">
+              <span>03</span>
+            </div>
+
+            <div>
+              <h3>Platform Management</h3>
+
+              <p>
+                Authorized administrators can manage users,
+                monitoring and platform activity.
+              </p>
+            </div>
+
+          </article>
+
+        </div>
+
       </div>
 
-      <!-- 02. Admin Registration Form -->
 
-      <form id="adminRegisterForm">
+      <!-- 05. Registration Card -->
 
-        <div class="form-group">
+      <section class="admin-register-card">
 
-          <label for="email">
-            Admin Email
-          </label>
+        <div class="admin-register-card-top">
 
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            placeholder="Enter administrator email"
-            required
-          >
+          <div class="card-security-icon">
+            <span>+</span>
+          </div>
 
-        </div>
+          <div>
+            <p class="card-label">
+              SECURE ADMINISTRATION
+            </p>
 
-        <div class="form-group">
+            <h2>
+              Administrator Registration
+            </h2>
 
-          <label for="password">
-            Password
-          </label>
-
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autocomplete="new-password"
-            placeholder="Create administrator password"
-            minlength="9"
-            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
-            required
-          >
+            <p class="card-description">
+              Create an additional authorized administrator account.
+            </p>
+          </div>
 
         </div>
 
-        <div class="form-group">
 
-          <label for="confirmPassword">
-            Confirm Password
-          </label>
+        <!-- 06. Registration Form -->
 
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            autocomplete="new-password"
-            placeholder="Confirm administrator password"
-            minlength="9"
-            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
-            required
+        <form id="adminRegisterForm" novalidate>
+
+          <div class="admin-form-group">
+
+            <label for="email">
+              Administrator Email
+            </label>
+
+            <div class="admin-input-wrap">
+
+              <span class="input-icon">@</span>
+
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="administrator@example.com"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="admin-form-group">
+
+            <label for="password">
+              Administrator Password
+            </label>
+
+            <div class="admin-input-wrap">
+
+              <span class="input-icon">◆</span>
+
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                placeholder="Create a strong password"
+                minlength="9"
+                pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="admin-form-group">
+
+            <label for="confirmPassword">
+              Confirm Password
+            </label>
+
+            <div class="admin-input-wrap">
+
+              <span class="input-icon">✓</span>
+
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                autocomplete="new-password"
+                placeholder="Confirm administrator password"
+                minlength="9"
+                pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s]).{9,}"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- 07. Password Requirements -->
+
+          <div class="admin-password-policy">
+
+            <div class="policy-heading">
+              <span>SECURITY REQUIREMENTS</span>
+            </div>
+
+            <ul>
+              <li>
+                <span class="policy-check">✓</span>
+                At least 9 characters
+              </li>
+
+              <li>
+                <span class="policy-check">✓</span>
+                At least one uppercase letter
+              </li>
+
+              <li>
+                <span class="policy-check">✓</span>
+                At least one lowercase letter
+              </li>
+
+              <li>
+                <span class="policy-check">✓</span>
+                At least one number
+              </li>
+
+              <li>
+                <span class="policy-check">✓</span>
+                At least one special character
+              </li>
+            </ul>
+
+          </div>
+
+
+          <!-- 08. Registration Message -->
+
+          <div
+            id="adminRegisterMessage"
+            class="admin-register-message"
+            role="alert"
+            hidden
+          ></div>
+
+
+          <!-- 09. Registration Button -->
+
+          <button
+            id="adminRegisterButton"
+            class="admin-register-button"
+            type="submit"
           >
+            <span>Create Administrator</span>
+            <span class="button-arrow">→</span>
+          </button>
 
-        </div>
+        </form>
 
-        <!-- 03. Registration Message -->
 
-        <div
-          id="adminRegisterMessage"
-          class="login-error"
-          role="alert"
-          hidden
-        ></div>
+        <!-- 10. Dashboard Navigation -->
 
-        <!-- 04. Registration Button -->
+        <div class="admin-register-navigation">
 
-        <button
-          id="adminRegisterButton"
-          type="submit"
-        >
-          Create Administrator
-        </button>
+          <span>Already managing the platform?</span>
 
-      </form>
-
-      <!-- 05. Admin Dashboard Link -->
-
-      <div class="registration-link">
-        <p>
           <a href="/admin.html">
             Back to Admin Dashboard
           </a>
-        </p>
-      </div>
+
+        </div>
+
+
+        <!-- 11. Security Notice -->
+
+        <div class="admin-security-notice">
+
+          <span class="notice-icon">✓</span>
+
+          <p>
+            Administrator registration is protected and available
+            only to authorized administrators.
+          </p>
+
+        </div>
+
+      </section>
 
     </section>
 
   </main>
 
-  <!-- 06. Admin Registration JavaScript -->
+
+  <!-- 12. Footer -->
+
+  <footer class="admin-register-footer">
+
+    <span>
+      © 2026 ELOC Aviator Predictor
+    </span>
+
+    <span class="footer-separator">•</span>
+
+    <span>
+      Secure Administrator Portal
+    </span>
+
+  </footer>
+
+
+  <!-- 13. Administrator Registration JavaScript -->
 
   <script src="/js/admin-register.js"></script>
 
