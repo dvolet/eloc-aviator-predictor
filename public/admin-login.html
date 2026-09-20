@@ -9,7 +9,7 @@
   >
 
   <title>
-    ELOC Aviator Predictor — Login
+    ELOC Aviator Predictor — Administrator Login
   </title>
 
   <link
@@ -20,38 +20,40 @@
 
 <body>
 
-  <!-- 01. Login Container -->
+  <!-- 01. Administrator Login Container -->
 
   <main class="login-container">
 
     <section class="login-card">
 
       <div class="brand">
+
         <h1>
           ELOC Aviator Predictor
         </h1>
 
         <p>
-          Statistical Analysis Platform
+          Administrator Portal
         </p>
+
       </div>
 
-      <!-- 02. Login Form -->
+      <!-- 02. Administrator Login Form -->
 
-      <form id="loginForm">
+      <form id="adminLoginForm">
 
         <div class="form-group">
 
-          <label for="email">
-            Email
+          <label for="adminEmail">
+            Administrator Email
           </label>
 
           <input
-            id="email"
+            id="adminEmail"
             name="email"
             type="email"
-            autocomplete="email"
-            placeholder="Enter your email"
+            autocomplete="username"
+            placeholder="Enter administrator email"
             required
           >
 
@@ -59,16 +61,16 @@
 
         <div class="form-group">
 
-          <label for="password">
+          <label for="adminPassword">
             Password
           </label>
 
           <input
-            id="password"
+            id="adminPassword"
             name="password"
             type="password"
             autocomplete="current-password"
-            placeholder="Enter your password"
+            placeholder="Enter administrator password"
             required
           >
 
@@ -77,7 +79,7 @@
         <!-- 03. Error Message -->
 
         <div
-          id="loginError"
+          id="adminLoginError"
           class="login-error"
           role="alert"
           hidden
@@ -86,44 +88,33 @@
         <!-- 04. Login Button -->
 
         <button
-          id="loginButton"
+          id="adminLoginButton"
           type="submit"
         >
-          Login
+          Administrator Login
         </button>
 
       </form>
 
-      <!-- 05. User Registration -->
+      <!-- 05. Navigation -->
 
       <div class="registration-link">
+
         <p>
-          Don't have an account?
-          <a href="/register.html">
-            Register as a User
+          <a href="/">
+            Back to User Login
           </a>
         </p>
+
       </div>
 
     </section>
 
   </main>
 
-  <!-- 05. Login JavaScript -->
+  <!-- 06. Administrator Login JavaScript -->
 
-
-      <!-- 06. Administrator Login -->
-
-      <div class="registration-link">
-        <p>
-          Administrator?
-          <a href="/admin-login.html">
-            Administrator Login
-          </a>
-        </p>
-      </div>
-
-      <script src="/js/login.js"></script>
+  <script src="/js/admin-login.js"></script>
 
 </body>
 </html>
