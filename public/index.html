@@ -8,122 +8,556 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>
-    ELOC Aviator Predictor — Login
-  </title>
+  <meta
+    name="description"
+    content="ELOC Aviator Predictor — statistical analysis, historical data and real-time prediction research."
+  >
+
+  <title>ELOC Aviator Predictor</title>
 
   <link
     rel="stylesheet"
-    href="/css/login.css"
+    href="/css/landing.css"
   >
 </head>
 
 <body>
 
-  <!-- 01. Login Container -->
+  <!-- 01. Navigation -->
 
-  <main class="login-container">
+  <header class="site-header">
 
-    <section class="login-card">
+    <div class="nav-container">
 
-      <div class="brand">
-        <h1>
-          ELOC Aviator Predictor
-        </h1>
+      <a
+        href="/"
+        class="brand-logo"
+        aria-label="ELOC Aviator Predictor Home"
+      >
 
-        <p>
-          Statistical Analysis Platform
-        </p>
+        <span class="brand-mark">
+          <span class="brand-bar bar-one"></span>
+          <span class="brand-bar bar-two"></span>
+          <span class="brand-bar bar-three"></span>
+          <span class="brand-wing">➤</span>
+        </span>
+
+        <span class="brand-text">
+          <strong>ELOC</strong>
+          <small>Aviator Predictor</small>
+        </span>
+
+      </a>
+
+      <nav class="main-nav">
+
+        <a
+          href="#home"
+          class="nav-link active"
+        >
+          Home
+        </a>
+
+        <a
+          href="#how-it-works"
+          class="nav-link"
+        >
+          How It Works
+        </a>
+
+        <a
+          href="#features"
+          class="nav-link"
+        >
+          Features
+        </a>
+
+        <a
+          href="#about"
+          class="nav-link"
+        >
+          About
+        </a>
+
+      </nav>
+
+      <div class="nav-actions">
+
+        <a
+          href="/register.html"
+          class="nav-button register-button"
+        >
+          <span>＋</span>
+          Register
+        </a>
+
+        <a
+          href="/admin-login.html"
+          class="nav-button admin-button"
+        >
+          <span>◆</span>
+          Admin Login
+        </a>
+
       </div>
 
-      <!-- 02. Login Form -->
+    </div>
 
-      <form id="loginForm">
+  </header>
 
-        <div class="form-group">
 
-          <label for="email">
-            Email
-          </label>
+  <!-- 02. Hero -->
 
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            placeholder="Enter your email"
-            required
+  <main id="home">
+
+    <section class="hero-section">
+
+      <div class="hero-container">
+
+        <!-- 03. Hero Content -->
+
+        <div class="hero-content">
+
+          <div class="hero-badge">
+            <span>⚡</span>
+            Smart Analysis. Better Decisions.
+          </div>
+
+          <h1>
+            Fly Smarter
+            <span>With Data</span>
+          </h1>
+
+          <p class="hero-description">
+            ELOC Aviator Predictor combines historical
+            round data, statistical analysis and
+            real-time monitoring to help you understand
+            market-like patterns in Aviator results.
+          </p>
+
+          <!-- 04. Feature Highlights -->
+
+          <div
+            class="feature-grid"
+            id="features"
           >
+
+            <div class="feature-item">
+
+              <div class="feature-icon">
+                ◈
+              </div>
+
+              <div>
+                <strong>
+                  Statistical Analysis
+                </strong>
+
+                <small>
+                  Data-driven insights
+                </small>
+              </div>
+
+            </div>
+
+            <div class="feature-item">
+
+              <div class="feature-icon">
+                ◉
+              </div>
+
+              <div>
+                <strong>
+                  Historical Data
+                </strong>
+
+                <small>
+                  Track previous rounds
+                </small>
+              </div>
+
+            </div>
+
+            <div class="feature-item">
+
+              <div class="feature-icon">
+                ⚡
+              </div>
+
+              <div>
+                <strong>
+                  Live Monitoring
+                </strong>
+
+                <small>
+                  Real-time updates
+                </small>
+              </div>
+
+            </div>
+
+            <div class="feature-item">
+
+              <div class="feature-icon">
+                ◆
+              </div>
+
+              <div>
+                <strong>
+                  Model Tracking
+                </strong>
+
+                <small>
+                  Measure performance
+                </small>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- 05. Hero Actions -->
+
+          <div class="hero-actions">
+
+            <a
+              href="/register.html"
+              class="primary-action"
+            >
+              <span class="action-icon">＋</span>
+
+              <span>
+                <strong>Create Account</strong>
+                <small>Start exploring the platform</small>
+              </span>
+
+              <span class="action-arrow">›</span>
+            </a>
+
+            <a
+              href="#how-it-works"
+              class="secondary-action"
+            >
+              <span class="play-icon">▶</span>
+
+              <span>
+                <strong>How It Works</strong>
+                <small>Explore the system</small>
+              </span>
+
+              <span class="action-arrow">›</span>
+            </a>
+
+          </div>
 
         </div>
 
-        <div class="form-group">
 
-          <label for="password">
-            Password
-          </label>
+        <!-- 06. Login Panel -->
 
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autocomplete="current-password"
-            placeholder="Enter your password"
-            required
+        <section class="login-panel">
+
+          <div class="panel-glow"></div>
+
+          <div class="security-icon">
+            ◆
+          </div>
+
+          <div class="panel-heading">
+
+            <h2>
+              Welcome Back
+            </h2>
+
+            <p>
+              Sign in to access your dashboard
+            </p>
+
+          </div>
+
+
+          <!-- 07. Login Form -->
+
+          <form id="loginForm">
+
+            <div class="form-group">
+
+              <label for="email">
+                Email Address
+              </label>
+
+              <div class="input-wrapper">
+
+                <span class="input-icon">
+                  @
+                </span>
+
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  placeholder="Enter your email"
+                  required
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="password">
+                Password
+              </label>
+
+              <div class="input-wrapper">
+
+                <span class="input-icon">
+                  ◆
+                </span>
+
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  placeholder="Enter your password"
+                  required
+                >
+
+              </div>
+
+            </div>
+
+
+            <!-- 08. Login Error -->
+
+            <div
+              id="loginError"
+              class="login-error"
+              role="alert"
+              hidden
+            ></div>
+
+
+            <!-- 09. Login Button -->
+
+            <button
+              id="loginButton"
+              type="submit"
+              class="login-submit"
+            >
+
+              <span class="submit-lock">
+                ◆
+              </span>
+
+              Login to Dashboard
+
+              <span class="submit-arrow">
+                ›
+              </span>
+
+            </button>
+
+          </form>
+
+
+          <!-- 10. Registration -->
+
+          <div class="panel-divider">
+
+            <span></span>
+
+            <small>
+              New to ELOC?
+            </small>
+
+            <span></span>
+
+          </div>
+
+          <a
+            href="/register.html"
+            class="panel-register"
           >
 
-        </div>
+            <span class="panel-register-icon">
+              ＋
+            </span>
 
-        <!-- 03. Error Message -->
+            <span>
+              <strong>Create New Account</strong>
+              <small>Register as a user</small>
+            </span>
 
-        <div
-          id="loginError"
-          class="login-error"
-          role="alert"
-          hidden
-        ></div>
+            <span>›</span>
 
-        <!-- 04. Login Button -->
-
-        <button
-          id="loginButton"
-          type="submit"
-        >
-          Login
-        </button>
-
-      </form>
-
-      <!-- 05. User Registration -->
-
-      <div class="registration-link">
-        <p>
-          Don't have an account?
-          <a href="/register.html">
-            Register as a User
           </a>
+
+
+          <!-- 11. Administrator -->
+
+          <a
+            href="/admin-login.html"
+            class="panel-admin"
+          >
+
+            <span class="panel-admin-icon">
+              ◆
+            </span>
+
+            <span>
+              <strong>Administrator Portal</strong>
+              <small>Authorized administrators only</small>
+            </span>
+
+            <span>›</span>
+
+          </a>
+
+        </section>
+
+      </div>
+
+    </section>
+
+
+    <!-- 12. Platform Information -->
+
+    <section
+      class="platform-strip"
+      id="how-it-works"
+    >
+
+      <div class="platform-item">
+
+        <span class="platform-icon">
+          ◈
+        </span>
+
+        <div>
+          <strong>Data Analysis</strong>
+          <small>Historical round research</small>
+        </div>
+
+      </div>
+
+
+      <div class="platform-item">
+
+        <span class="platform-icon">
+          ◇
+        </span>
+
+        <div>
+          <strong>Prediction Tracking</strong>
+          <small>Compare predictions with results</small>
+        </div>
+
+      </div>
+
+
+      <div class="platform-item">
+
+        <span class="platform-icon">
+          ◆
+        </span>
+
+        <div>
+          <strong>Secure Access</strong>
+          <small>Protected user accounts</small>
+        </div>
+
+      </div>
+
+
+      <div class="platform-item">
+
+        <span class="platform-icon">
+          ⚡
+        </span>
+
+        <div>
+          <strong>Live System</strong>
+          <small>Real-time platform monitoring</small>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- 13. About -->
+
+    <section
+      class="about-section"
+      id="about"
+    >
+
+      <div class="about-content">
+
+        <span class="section-label">
+          ELOC AVIATOR PREDICTOR
+        </span>
+
+        <h2>
+          Built Around
+          <span>Data & Analysis</span>
+        </h2>
+
+        <p>
+          The platform is designed to collect, analyze
+          and evaluate Aviator round data. Its purpose is
+          to provide structured statistical information
+          rather than promise guaranteed future outcomes.
         </p>
+
       </div>
 
     </section>
 
   </main>
 
-  <!-- 05. Login JavaScript -->
+
+  <!-- 14. Footer -->
+
+  <footer class="site-footer">
+
+    <div class="footer-brand">
+
+      <strong>
+        ELOC Aviator Predictor
+      </strong>
+
+      <small>
+        Statistical analysis and prediction research platform.
+      </small>
+
+    </div>
+
+    <div class="footer-links">
+
+      <a href="/">Home</a>
+
+      <a href="/register.html">
+        Register
+      </a>
+
+      <a href="/admin-login.html">
+        Administrator
+      </a>
+
+    </div>
+
+  </footer>
 
 
-      <!-- 06. Administrator Login -->
+  <!-- 15. Login JavaScript -->
 
-      <div class="registration-link">
-        <p>
-          Administrator?
-          <a href="/admin-login.html">
-            Administrator Login
-          </a>
-        </p>
-      </div>
-
-      <script src="/js/login.js"></script>
+  <script src="/js/login.js"></script>
 
 </body>
 </html>
