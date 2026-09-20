@@ -28,7 +28,6 @@ html {
 
 body {
   margin: 0;
-  min-height: 100vh;
   overflow-x: hidden;
   font-family:
     Arial,
@@ -290,7 +289,6 @@ body::before {
 
 .hero-section {
   position: relative;
-  min-height: 730px;
   padding: 60px 18px 45px;
 }
 
@@ -317,7 +315,6 @@ body::before {
 
   width: 100%;
   max-width: 1240px;
-  min-height: 620px;
   margin: 0 auto;
 
   display: grid;
