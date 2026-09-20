@@ -8,14 +8,14 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>
-    ELOC Aviator Predictor — Dashboard
-  </title>
-
-  <link
-    rel="stylesheet"
-    href="/css/dashboard.css"
+  <meta
+    name="description"
+    content="ELOC Aviator Predictor statistical analysis dashboard."
   >
+
+  <title>ELOC Aviator Predictor — Dashboard</title>
+
+  <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 
 <body>
@@ -24,58 +24,117 @@
 
   <header class="dashboard-header">
 
-    <div class="brand">
-      <h1>
-        ELOC Aviator Predictor
-      </h1>
+    <div class="dashboard-brand">
 
-      <p>
-        Statistical Analysis Dashboard
-      </p>
+      <a
+        class="dashboard-brand-link"
+        href="/dashboard.html"
+        aria-label="ELOC Aviator Predictor Dashboard"
+      >
+        <span class="dashboard-brand-mark">E</span>
+
+        <span class="dashboard-brand-text">
+          <strong>ELOC</strong>
+          <small>AVIATOR PREDICTOR</small>
+        </span>
+      </a>
+
+      <span class="dashboard-divider"></span>
+
+      <span class="dashboard-page-label">
+        Analytics Dashboard
+      </span>
+
     </div>
 
-    <div class="user-area">
-      <span id="userEmail">
-        Loading...
-      </span>
+
+    <div class="dashboard-user-area">
+
+      <div class="dashboard-user">
+
+        <span class="user-avatar">U</span>
+
+        <div class="user-details">
+
+          <span class="user-role">
+            USER ACCOUNT
+          </span>
+
+          <span id="userEmail">
+            Loading...
+          </span>
+
+        </div>
+
+      </div>
 
       <button
         id="logoutButton"
+        class="dashboard-logout-button"
         type="button"
       >
-        Logout
+        <span>Logout</span>
+        <span class="logout-icon">↗</span>
       </button>
+
     </div>
 
   </header>
+
 
   <!-- 02. Main Dashboard -->
 
   <main class="dashboard-container">
 
-    <!-- 03. Welcome Section -->
 
-    <section class="welcome-section">
+    <!-- 03. Dashboard Introduction -->
 
-      <h2>
-        Welcome
-      </h2>
+    <section class="dashboard-intro">
 
-      <p id="welcomeMessage">
-        Loading dashboard...
-      </p>
+      <div>
+
+        <div class="dashboard-eyebrow">
+          <span class="eyebrow-dot"></span>
+          STATISTICAL INTELLIGENCE PLATFORM
+        </div>
+
+        <h1>
+          Your prediction
+          <span>analytics.</span>
+        </h1>
+
+        <p id="welcomeMessage">
+          Loading dashboard...
+        </p>
+
+      </div>
+
+
+      <div class="dashboard-live-indicator">
+
+        <span class="live-dot"></span>
+
+        <div>
+          <strong>Platform Active</strong>
+          <small>Analytics system online</small>
+        </div>
+
+      </div>
 
     </section>
 
-    <!-- 04. Statistics Cards -->
 
-    <section class="stats-grid">
+    <!-- 04. Statistics Overview -->
 
-      <article class="stat-card">
+    <section class="stats-grid" aria-label="Prediction statistics">
 
-        <span class="stat-label">
-          Accuracy
-        </span>
+
+      <article class="stat-card stat-card-primary">
+
+        <div class="stat-card-top">
+          <span class="stat-label">Accuracy</span>
+          <span class="stat-icon">%</span>
+        </div>
 
         <strong
           id="accuracyValue"
@@ -84,13 +143,19 @@
           —
         </strong>
 
+        <span class="stat-description">
+          Evaluated prediction performance
+        </span>
+
       </article>
+
 
       <article class="stat-card">
 
-        <span class="stat-label">
-          Predictions
-        </span>
+        <div class="stat-card-top">
+          <span class="stat-label">Predictions</span>
+          <span class="stat-icon">01</span>
+        </div>
 
         <strong
           id="predictionCount"
@@ -99,13 +164,19 @@
           —
         </strong>
 
+        <span class="stat-description">
+          Total predictions recorded
+        </span>
+
       </article>
+
 
       <article class="stat-card">
 
-        <span class="stat-label">
-          Correct
-        </span>
+        <div class="stat-card-top">
+          <span class="stat-label">Correct</span>
+          <span class="stat-icon stat-icon-success">✓</span>
+        </div>
 
         <strong
           id="correctCount"
@@ -114,13 +185,19 @@
           —
         </strong>
 
+        <span class="stat-description">
+          Correctly evaluated predictions
+        </span>
+
       </article>
+
 
       <article class="stat-card">
 
-        <span class="stat-label">
-          Avg. Confidence
-        </span>
+        <div class="stat-card-top">
+          <span class="stat-label">Avg. Confidence</span>
+          <span class="stat-icon">C</span>
+        </div>
 
         <strong
           id="confidenceValue"
@@ -129,13 +206,19 @@
           —
         </strong>
 
+        <span class="stat-description">
+          Average model confidence
+        </span>
+
       </article>
+
 
       <article class="stat-card">
 
-        <span class="stat-label">
-          Average Error
-        </span>
+        <div class="stat-card-top">
+          <span class="stat-label">Average Error</span>
+          <span class="stat-icon">Δ</span>
+        </div>
 
         <strong
           id="averageErrorValue"
@@ -144,13 +227,19 @@
           —
         </strong>
 
+        <span class="stat-description">
+          Mean prediction error
+        </span>
+
       </article>
+
 
       <article class="stat-card">
 
-        <span class="stat-label">
-          Average % Error
-        </span>
+        <div class="stat-card-top">
+          <span class="stat-label">Average % Error</span>
+          <span class="stat-icon">↕</span>
+        </div>
 
         <strong
           id="averagePercentageErrorValue"
@@ -159,9 +248,14 @@
           —
         </strong>
 
+        <span class="stat-description">
+          Mean percentage error
+        </span>
+
       </article>
 
     </section>
+
 
     <!-- 05. Recent Predictions -->
 
@@ -169,11 +263,27 @@
 
       <div class="section-header">
 
-        <h2>
-          Recent Predictions
-        </h2>
+        <div class="section-title-group">
+
+          <div class="section-icon">
+            P
+          </div>
+
+          <div>
+            <h2>Recent Predictions</h2>
+            <p>
+              Latest recorded prediction evaluations
+            </p>
+          </div>
+
+        </div>
+
+        <span class="section-badge">
+          LIVE DATA
+        </span>
 
       </div>
+
 
       <div class="table-wrapper">
 
@@ -208,17 +318,34 @@
 
     </section>
 
+
     <!-- 06. Recent Rounds -->
 
     <section class="dashboard-section">
 
       <div class="section-header">
 
-        <h2>
-          Recent Rounds
-        </h2>
+        <div class="section-title-group">
+
+          <div class="section-icon">
+            R
+          </div>
+
+          <div>
+            <h2>Recent Rounds</h2>
+            <p>
+              Latest historical multiplier observations
+            </p>
+          </div>
+
+        </div>
+
+        <span class="section-badge section-badge-muted">
+          HISTORY
+        </span>
 
       </div>
+
 
       <div
         id="roundsGrid"
@@ -233,45 +360,151 @@
 
     </section>
 
-  
 
-    <!-- 13.72 Prediction Status Summary -->
+    <!-- 07. Prediction Status -->
 
-<section class="status-summary-section">
+    <section class="status-summary-section">
 
-  <div class="section-heading">
-    <h2>Prediction Status</h2>
-    <p>Summary of evaluated prediction results.</p>
-  </div>
+      <div class="section-header">
 
-  <div class="status-summary-grid">
+        <div class="section-title-group">
 
-    <article class="status-card">
-      <span class="status-label">Correct</span>
-      <strong id="statusCorrectCount">—</strong>
-    </article>
+          <div class="section-icon">
+            S
+          </div>
 
-    <article class="status-card">
-      <span class="status-label">Incorrect</span>
-      <strong id="statusIncorrectCount">—</strong>
-    </article>
+          <div class="section-heading">
 
-    <article class="status-card">
-      <span class="status-label">Pending</span>
-      <strong id="statusPendingCount">—</strong>
-    </article>
+            <h2>
+              Prediction Status
+            </h2>
 
-  </div>
+            <p>
+              Summary of evaluated prediction results.
+            </p>
 
-</section>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="status-summary-grid">
+
+
+        <article class="status-card status-card-correct">
+
+          <div class="status-card-icon">
+            ✓
+          </div>
+
+          <div class="status-card-content">
+
+            <span class="status-label">
+              Correct
+            </span>
+
+            <strong id="statusCorrectCount">
+              —
+            </strong>
+
+          </div>
+
+        </article>
+
+
+        <article class="status-card status-card-incorrect">
+
+          <div class="status-card-icon">
+            ×
+          </div>
+
+          <div class="status-card-content">
+
+            <span class="status-label">
+              Incorrect
+            </span>
+
+            <strong id="statusIncorrectCount">
+              —
+            </strong>
+
+          </div>
+
+        </article>
+
+
+        <article class="status-card status-card-pending">
+
+          <div class="status-card-icon">
+            …
+          </div>
+
+          <div class="status-card-content">
+
+            <span class="status-label">
+              Pending
+            </span>
+
+            <strong id="statusPendingCount">
+              —
+            </strong>
+
+          </div>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- 08. Dashboard Disclaimer -->
+
+    <section class="dashboard-disclaimer">
+
+      <div class="disclaimer-icon">
+        i
+      </div>
+
+      <div>
+        <strong>Statistical information only</strong>
+
+        <p>
+          Dashboard results are based on recorded historical
+          data and evaluated predictions. Historical performance
+          does not guarantee future outcomes.
+        </p>
+      </div>
+
+    </section>
+
 
   </main>
 
-  <!-- 07. Dashboard JavaScript -->
+
+  <!-- 09. Dashboard Footer -->
+
+  <footer class="dashboard-footer">
+
+    <span>
+      © 2026 ELOC Aviator Predictor
+    </span>
+
+    <span class="footer-separator">•</span>
+
+    <span>
+      Statistical Analysis Platform
+    </span>
+
+  </footer>
+
+
+  <!-- 10. Dashboard JavaScript -->
 
   <script src="/js/dashboard.js"></script>
 
 </body>
-
-
 </html>
