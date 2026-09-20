@@ -26,6 +26,7 @@ html,
 body {
   width: 100%;
   max-width: 100%;
+  overflow-x: clip;
 }
 
 .site-header,
@@ -309,10 +310,12 @@ body::before {
 .hero-section::before {
   content: "";
   position: absolute;
-  width: 650px;
-  height: 650px;
+  width: min(650px, 100vw);
+  height: min(650px, 100vw);
+  max-width: 100%;
   top: 40px;
-  left: 24%;
+  left: 50%;
+  transform: translateX(-50%);
   border-radius: 50%;
   background:
     radial-gradient(
