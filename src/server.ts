@@ -5,6 +5,7 @@ import { createServer } from "node:http";
 import { app } from "./app.js";
 import { startWebSocketServer } from "./realtime/websocket-server.js";
 import { initializeWebSocketEvents } from "./realtime/websocket-events.js";
+import { initializePredictionSessionEvents } from "./prediction/prediction-session-events.js";
 import { initializeDatabase } from "./database/schema.js";
 import { cleanupSessions } from "./auth/session-cleanup-service.js";
 
@@ -44,6 +45,7 @@ setInterval(
 // ----------------------------
 
 initializeWebSocketEvents();
+initializePredictionSessionEvents();
 
 // 05. HTTP Server
 // ---------------

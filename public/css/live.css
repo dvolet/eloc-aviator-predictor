@@ -206,3 +206,133 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* 05. Prediction Control Center
+--------------------------------- */
+
+.prediction-control-section {
+  margin-bottom: 1.5rem;
+}
+
+.prediction-control-card {
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.prediction-control-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.prediction-control-status strong {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+.prediction-control-button {
+  width: 100%;
+  min-height: 64px;
+  margin-bottom: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.prediction-control-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.prediction-control-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.prediction-control-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.prediction-control-item {
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.prediction-control-item span {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.prediction-control-item strong {
+  font-size: 1.35rem;
+}
+
+.prediction-control-message {
+  min-height: 1.5rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.prediction-performance {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.prediction-performance-heading {
+  margin-bottom: 1rem;
+}
+
+.prediction-performance-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .prediction-control-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .prediction-performance-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .prediction-control-card {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .prediction-control-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prediction-control-button {
+    min-height: 58px;
+  }
+}

@@ -40,6 +40,27 @@ const lowestMultiplierElement =
 const highestMultiplierElement =
   document.getElementById("highestMultiplier");
 
+const predictionControlStatusElement =
+  document.getElementById("predictionControlStatus");
+
+const predictionControlButton =
+  document.getElementById("predictionControlButton");
+
+const controlPredictedMultiplierElement =
+  document.getElementById("controlPredictedMultiplier");
+
+const controlPredictionConfidenceElement =
+  document.getElementById("controlPredictionConfidence");
+
+const controlActualMultiplierElement =
+  document.getElementById("controlActualMultiplier");
+
+const controlPredictionErrorElement =
+  document.getElementById("controlPredictionError");
+
+const predictionControlMessageElement =
+  document.getElementById("predictionControlMessage");
+
 // 01. Formatting
 // --------------
 
@@ -314,7 +335,222 @@ function handleRoundCrashed(event) {
     `Round ${event.roundId} crashed.`;
 }
 
-// 09. Handle Realtime Events
+// 09. Prediction Control Center
+// ----------------------------
+
+function setPredictionControlMessage(message) {
+  if (predictionControlMessageElement) {
+    predictionControlMessageElement.textContent = message;
+  }
+}
+
+function renderPredictionControlState(state) {
+  if (!predictionControlStatusElement ||
+      !predictionControlButton) {
+    return;
+  }
+
+  if (!state || !state.session) {
+    predictionControlStatusElement.textContent = "READY";
+    predictionControlButton.textContent = "START PREDICTION";
+    predictionControlButton.disabled = false;
+
+    controlPredictedMultiplierElement.textContent = "—";
+    controlPredictionConfidenceElement.textContent = "—";
+    controlActualMultiplierElement.textContent = "—";
+    controlPredictionErrorElement.textContent = "—";
+
+    setPredictionControlMessage(
+      "Ready to start a prediction session."
+    );
+
+    return;
+  }
+
+  const session = state.session;
+  const prediction = state.prediction;
+  const result = state.result;
+
+  controlPredictedMultiplierElement.textContent =
+    prediction
+      ? formatMultiplier(Number(prediction.predicted_multiplier))
+      : "—";
+
+  controlPredictionConfidenceElement.textContent =
+    prediction &&
+    typeof prediction.confidence === "number"
+      ? formatPercentage(prediction.confidence * 100)
+      : "—";
+
+  controlActualMultiplierElement.textContent =
+    result
+      ? formatMultiplier(Number(result.multiplier))
+      : "—";
+
+  controlPredictionErrorElement.textContent =
+    result &&
+    typeof result.error === "number"
+      ? formatMultiplier(Number(result.error))
+      : "—";
+
+  if (session.status === "active") {
+    predictionControlStatusElement.textContent = "ACTIVE";
+    predictionControlButton.textContent = "PREDICTION ACTIVE";
+    predictionControlButton.disabled = true;
+
+    setPredictionControlMessage(
+      "Prediction session is active."
+    );
+    return;
+  }
+
+  if (session.status === "waiting_result") {
+    predictionControlStatusElement.textContent =
+      "WAITING FOR RESULT";
+
+    predictionControlButton.textContent =
+      "WAITING FOR RESULT";
+
+    predictionControlButton.disabled = true;
+
+    setPredictionControlMessage(
+      "Prediction locked. Waiting for the observed round result."
+    );
+    return;
+  }
+
+  if (session.status === "evaluated") {
+    predictionControlStatusElement.textContent =
+      "EVALUATED";
+
+    predictionControlButton.textContent =
+      "START NEXT PREDICTION";
+
+    predictionControlButton.disabled = false;
+
+    const resultText =
+      result && result.isCorrect
+        ? "Prediction evaluated as correct."
+        : "Prediction evaluated against the observed result.";
+
+    setPredictionControlMessage(resultText);
+    return;
+  }
+
+  if (session.status === "stopped") {
+    predictionControlStatusElement.textContent = "STOPPED";
+    predictionControlButton.textContent = "START PREDICTION";
+    predictionControlButton.disabled = false;
+
+    setPredictionControlMessage(
+      "The previous prediction session was stopped."
+    );
+  }
+}
+
+async function loadPredictionControlState() {
+  try {
+    const data =
+      await apiRequest("/prediction-session/control");
+
+    if (data && data.success) {
+      renderPredictionControlState(data.state);
+    }
+  } catch (error) {
+    console.error(
+      "Prediction control state error:",
+      error
+    );
+  }
+}
+
+async function startPredictionControl() {
+  if (!predictionControlButton) {
+    return;
+  }
+
+  predictionControlButton.disabled = true;
+  predictionControlStatusElement.textContent =
+    "STARTING";
+
+  setPredictionControlMessage(
+    "Starting prediction session..."
+  );
+
+  try {
+    const data = await fetch(
+      `${API_BASE}/prediction-session/start`,
+      {
+        method: "POST",
+        headers: {
+          Authorization:
+            `Bearer ${requireSessionToken()}`,
+          "Content-Type": "application/json"
+        }
+      }
+    ).then(async (response) => {
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          result.error ||
+          "Unable to start prediction session."
+        );
+      }
+
+      return result;
+    });
+
+    renderPredictionControlState({
+      session: data.session,
+      prediction: data.prediction
+        ? {
+            predicted_multiplier:
+              data.prediction.predictedMultiplier,
+            confidence:
+              data.prediction.confidence,
+            model_name:
+              data.prediction.modelName
+          }
+        : null,
+      result: null
+    });
+
+    setPredictionControlMessage(
+      "Prediction locked. Waiting for the observed round result."
+    );
+  } catch (error) {
+    predictionControlButton.disabled = false;
+    predictionControlStatusElement.textContent =
+      "READY";
+
+    setPredictionControlMessage(
+      error instanceof Error
+        ? error.message
+        : "Unable to start prediction."
+    );
+  }
+}
+
+function initializePredictionControl() {
+  if (!predictionControlButton) {
+    return;
+  }
+
+  predictionControlButton.addEventListener(
+    "click",
+    startPredictionControl
+  );
+
+  loadPredictionControlState();
+
+  window.setInterval(
+    loadPredictionControlState,
+    2000
+  );
+}
+
+// 10. Handle Realtime Events
 // --------------------------
 
 function handleRealtimeEvent(event) {
@@ -366,6 +602,7 @@ async function loadLiveInterface() {
     renderRounds(rounds);
     renderStatistics(rounds);
     renderPredictionPlaceholder();
+    await loadPredictionControlState();
 
     setConnectionStatus(true);
   } catch (error) {
@@ -509,4 +746,5 @@ function connectWebSocket() {
 // ----------------------------
 
 loadLiveInterface();
+initializePredictionControl();
 connectWebSocket();

@@ -8,6 +8,9 @@ import {
 import {
   getHistoricalRounds
 } from "../database/history-service.js";
+import {
+  recordObservedRound
+} from "../realtime/observed-round-service.js";
 
 import {
   recordRound
@@ -115,6 +118,17 @@ import {
   getModelPerformanceSummaries
 } from "../monitoring/performance-monitoring-service.js";
 
+import {
+  startPredictionSession,
+  generateAndLockPrediction,
+  lockPredictionForSession,
+  recordSessionResult,
+  completePredictionSession,
+  stopPredictionSession,
+  getCurrentPredictionSession,
+  getPredictionControlState
+} from "../prediction/prediction-session-service.js";
+
 export const apiRouter =
   Router();
 
@@ -145,6 +159,407 @@ apiRouter.get(
           error instanceof Error
             ? error.message
             : "Unable to retrieve performance monitoring data"
+      });
+    }
+  }
+);
+
+// 19.01 Observed Round API
+// -------------------------
+
+apiRouter.post(
+  "/observed-round",
+  requireAuthentication,
+  (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user) {
+        res.status(401).json({
+          success: false,
+          error: "Authentication required"
+        });
+        return;
+      }
+
+      const roundId = recordObservedRound({
+        multiplier: req.body?.multiplier,
+        occurredAt: req.body?.occurredAt,
+        durationMs: req.body?.durationMs,
+        source: req.body?.source
+      });
+
+      res.status(201).json({
+        success: true,
+        roundId
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Invalid observed round data"
+      });
+    }
+  }
+);
+
+// 19.02 Prediction Session API
+// -----------------------------
+
+apiRouter.post(
+  "/prediction-session/start",
+  requireAuthentication,
+  (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user) {
+        res.status(401).json({
+          success: false,
+          error: "Authentication required"
+        });
+        return;
+      }
+
+      const session =
+        startPredictionSession(
+          req.user.id
+        );
+
+      const prediction =
+        generateAndLockPrediction(
+          session.id
+        );
+
+      res.status(201).json({
+        success: true,
+        session:
+          prediction.session,
+        prediction:
+          prediction.prediction
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to start prediction session"
+      });
+    }
+  }
+);
+
+apiRouter.get(
+  "/prediction-session/current",
+  requireAuthentication,
+  (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user) {
+        res.status(401).json({
+          success: false,
+          error: "Authentication required"
+        });
+        return;
+      }
+
+      const session =
+        getCurrentPredictionSession(
+          req.user.id
+        );
+
+      res.json({
+        success: true,
+        session: session ?? null
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to retrieve prediction session"
+      });
+    }
+  }
+);
+
+apiRouter.get(
+  "/prediction-session/control",
+  requireAuthentication,
+  (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user) {
+        res.status(401).json({
+          success: false,
+          error: "Authentication required"
+        });
+        return;
+      }
+
+      const state =
+        getPredictionControlState(req.user.id);
+
+      res.json({
+        success: true,
+        state
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to retrieve prediction control state"
+      });
+    }
+  }
+);
+
+apiRouter.post(
+  "/prediction-session/stop",
+  requireAuthentication,
+  (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user) {
+        res.status(401).json({
+          success: false,
+          error: "Authentication required"
+        });
+        return;
+      }
+
+      const session =
+        getCurrentPredictionSession(
+          req.user.id
+        );
+
+      if (!session) {
+        throw new Error(
+          "No active prediction session"
+        );
+      }
+
+      const stopped =
+        stopPredictionSession(
+          session.id
+        );
+
+      res.json({
+        success: true,
+        session: stopped
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to stop prediction session"
+      });
+    }
+  }
+);
+
+apiRouter.post(
+  "/prediction-session/:id/lock",
+  requireAuthentication,
+  (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user) {
+        res.status(401).json({
+          success: false,
+          error: "Authentication required"
+        });
+        return;
+      }
+
+      const sessionId =
+        Number(req.params.id);
+
+      const predictionId =
+        Number(req.body.predictionId);
+
+      if (
+        !Number.isInteger(sessionId) ||
+        sessionId <= 0
+      ) {
+        throw new Error(
+          "Session ID must be a positive integer"
+        );
+      }
+
+      if (
+        !Number.isInteger(predictionId) ||
+        predictionId <= 0
+      ) {
+        throw new Error(
+          "Prediction ID must be a positive integer"
+        );
+      }
+
+      const currentSession =
+        getCurrentPredictionSession(
+          req.user.id
+        );
+
+      if (
+        !currentSession ||
+        currentSession.id !== sessionId
+      ) {
+        throw new Error(
+          "Prediction session does not belong to the authenticated user"
+        );
+      }
+
+      const session =
+        lockPredictionForSession(
+          sessionId,
+          predictionId
+        );
+
+      res.json({
+        success: true,
+        session
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to lock prediction"
+      });
+    }
+  }
+);
+
+apiRouter.post(
+  "/prediction-session/:id/result",
+  requireAuthentication,
+  (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user) {
+        res.status(401).json({
+          success: false,
+          error: "Authentication required"
+        });
+        return;
+      }
+
+      const sessionId =
+        Number(req.params.id);
+
+      const roundId =
+        Number(req.body.roundId);
+
+      if (
+        !Number.isInteger(sessionId) ||
+        sessionId <= 0
+      ) {
+        throw new Error(
+          "Session ID must be a positive integer"
+        );
+      }
+
+      if (
+        !Number.isInteger(roundId) ||
+        roundId <= 0
+      ) {
+        throw new Error(
+          "Round ID must be a positive integer"
+        );
+      }
+
+      const currentSession =
+        getCurrentPredictionSession(
+          req.user.id
+        );
+
+      if (
+        !currentSession ||
+        currentSession.id !== sessionId
+      ) {
+        throw new Error(
+          "Prediction session does not belong to the authenticated user"
+        );
+      }
+
+      const session =
+        recordSessionResult(
+          sessionId,
+          roundId
+        );
+
+      res.json({
+        success: true,
+        session
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to record prediction result"
+      });
+    }
+  }
+);
+
+apiRouter.post(
+  "/prediction-session/:id/complete",
+  requireAuthentication,
+  (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.user) {
+        res.status(401).json({
+          success: false,
+          error: "Authentication required"
+        });
+        return;
+      }
+
+      const sessionId =
+        Number(req.params.id);
+
+      if (
+        !Number.isInteger(sessionId) ||
+        sessionId <= 0
+      ) {
+        throw new Error(
+          "Session ID must be a positive integer"
+        );
+      }
+
+      const currentSession =
+        getCurrentPredictionSession(
+          req.user.id
+        );
+
+      if (
+        !currentSession ||
+        currentSession.id !== sessionId
+      ) {
+        throw new Error(
+          "Prediction session does not belong to the authenticated user"
+        );
+      }
+
+      const session =
+        completePredictionSession(
+          sessionId
+        );
+
+      res.json({
+        success: true,
+        session
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to complete prediction session"
       });
     }
   }

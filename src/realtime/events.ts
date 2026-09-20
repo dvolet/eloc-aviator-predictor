@@ -14,6 +14,7 @@ export type MultiplierUpdatedEvent = {
 export type RoundCrashedEvent = {
   type: "ROUND_CRASHED";
   roundId: string;
+  databaseRoundId: number;
   multiplier: number;
   timestamp: number;
 };

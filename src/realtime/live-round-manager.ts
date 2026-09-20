@@ -13,11 +13,10 @@ export function beginRound(
   roundId: string,
   startedAt: number = Date.now()
 ) {
-  const round =
-    startLiveRound(
-      roundId,
-      startedAt
-    );
+  const round = startLiveRound(
+    roundId,
+    startedAt
+  );
 
   publishEvent({
     type: "ROUND_STARTED",
@@ -31,10 +30,9 @@ export function beginRound(
 export function updateMultiplier(
   multiplier: number
 ) {
-  const round =
-    updateLiveMultiplier(
-      multiplier
-    );
+  const round = updateLiveMultiplier(
+    multiplier
+  );
 
   publishEvent({
     type: "MULTIPLIER_UPDATED",
@@ -49,27 +47,28 @@ export function updateMultiplier(
 export function completeRound(
   finalMultiplier: number
 ): number {
-  const round =
-    crashLiveRound(
-      finalMultiplier
-    );
-
-  publishEvent({
-    type: "ROUND_CRASHED",
-    roundId: round.roundId,
-    multiplier: round.multiplier,
-    timestamp: Date.now()
-  });
+  const round = crashLiveRound(
+    finalMultiplier
+  );
 
   const occurredAt =
     new Date().toISOString();
 
-  const durationMs = Date.now() - round.startedAt;
+  const durationMs =
+    Date.now() - round.startedAt;
 
   const databaseId = recordRound({
     multiplier: round.multiplier,
     occurredAt,
     durationMs
+  });
+
+  publishEvent({
+    type: "ROUND_CRASHED",
+    roundId: round.roundId,
+    databaseRoundId: databaseId,
+    multiplier: round.multiplier,
+    timestamp: Date.now()
   });
 
   clearLiveRound();

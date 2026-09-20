@@ -7,6 +7,7 @@ export function initializeDatabase(): void {
       multiplier REAL NOT NULL,
       occurred_at TEXT NOT NULL,
       duration_ms INTEGER,
+      source TEXT NOT NULL DEFAULT 'unknown',
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -23,6 +24,51 @@ export function initializeDatabase(): void {
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (round_id) REFERENCES rounds(id)
     );
+
+    CREATE TABLE IF NOT EXISTS prediction_sessions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      status TEXT NOT NULL DEFAULT 'ready',
+      prediction_id INTEGER,
+      round_id INTEGER,
+      started_at TEXT,
+      prediction_locked_at TEXT,
+      result_received_at TEXT,
+      evaluated_at TEXT,
+      stopped_at TEXT,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+      FOREIGN KEY (prediction_id)
+        REFERENCES predictions(id)
+        ON DELETE SET NULL,
+      FOREIGN KEY (round_id)
+        REFERENCES rounds(id)
+        ON DELETE SET NULL,
+      CHECK (
+        status IN (
+          'ready',
+          'active',
+          'waiting_result',
+          'evaluated',
+          'stopped'
+        )
+      )
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_prediction_sessions_user_id
+      ON prediction_sessions(user_id);
+
+    CREATE INDEX IF NOT EXISTS idx_prediction_sessions_status
+      ON prediction_sessions(status);
+
+    CREATE INDEX IF NOT EXISTS idx_prediction_sessions_prediction_id
+      ON prediction_sessions(prediction_id);
+
+    CREATE INDEX IF NOT EXISTS idx_prediction_sessions_round_id
+      ON prediction_sessions(round_id);
 
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -79,4 +125,19 @@ export function initializeDatabase(): void {
     CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at
       ON audit_logs(created_at);
   `);
+
+  const roundColumns = db
+    .prepare("PRAGMA table_info(rounds)")
+    .all() as Array<{ name: string }>;
+
+  const hasSourceColumn = roundColumns.some(
+    (column) => column.name === "source"
+  );
+
+  if (!hasSourceColumn) {
+    db.exec(`
+      ALTER TABLE rounds
+      ADD COLUMN source TEXT NOT NULL DEFAULT 'unknown'
+    `);
+  }
 }

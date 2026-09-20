@@ -17,7 +17,8 @@ export const roundCrashedEventSchema = z.object({
   type: z.literal("ROUND_CRASHED"),
   roundId: z.string().min(1),
   multiplier: z.number().finite().positive(),
-  timestamp: z.number().finite()
+  timestamp: z.number().finite(),
+  databaseRoundId: z.number().int().positive().optional()
 });
 
 export const realtimeEventSchema = z.discriminatedUnion("type", [

@@ -160,7 +160,93 @@
 
     </section>
 
-    <!-- 05. Recent Live Rounds -->
+    <!-- 05. Prediction Control Center -->
+    <section class="prediction-control-section">
+      <div class="section-heading">
+        <h2>Prediction Control Center</h2>
+        <p>Lock a prediction before the observed round result is evaluated.</p>
+      </div>
+
+      <div class="prediction-control-card">
+        <div class="prediction-control-status">
+          <span class="section-label">Control Status</span>
+          <strong id="predictionControlStatus">READY</strong>
+        </div>
+
+        <button
+          id="predictionControlButton"
+          class="prediction-control-button"
+          type="button"
+        >
+          START PREDICTION
+        </button>
+
+        <div class="prediction-control-grid">
+          <article class="prediction-control-item">
+            <span>Prediction</span>
+            <strong id="controlPredictedMultiplier">—</strong>
+          </article>
+
+          <article class="prediction-control-item">
+            <span>Confidence</span>
+            <strong id="controlPredictionConfidence">—</strong>
+          </article>
+
+          <article class="prediction-control-item">
+            <span>Actual Result</span>
+            <strong id="controlActualMultiplier">—</strong>
+          </article>
+
+          <article class="prediction-control-item">
+            <span>Error</span>
+            <strong id="controlPredictionError">—</strong>
+          </article>
+        </div>
+
+        <div
+          id="predictionControlMessage"
+          class="prediction-control-message"
+          role="status"
+        >
+          Ready to start a prediction session.
+        </div>
+
+        <div class="prediction-performance">
+          <div class="prediction-performance-heading">
+            <span class="section-label">Performance Summary</span>
+          </div>
+
+          <div class="prediction-performance-grid">
+            <article class="prediction-control-item">
+              <span>Predictions</span>
+              <strong id="controlTotalPredictions">—</strong>
+            </article>
+
+            <article class="prediction-control-item">
+              <span>Accuracy</span>
+              <strong id="controlAccuracyPercentage">—</strong>
+            </article>
+
+            <article class="prediction-control-item">
+              <span>Average Error</span>
+              <strong id="controlAverageError">—</strong>
+            </article>
+
+            <article class="prediction-control-item">
+              <span>Average % Error</span>
+              <strong id="controlAveragePercentageError">—</strong>
+            </article>
+
+            <article class="prediction-control-item">
+              <span>Average Confidence</span>
+              <strong id="controlAverageConfidence">—</strong>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06. Recent Live Rounds -->
 
     <section class="round-history-section">
 
@@ -189,7 +275,7 @@
 
     </section>
 
-    <!-- 06. Statistical Information -->
+    <!-- 07. Statistical Information -->
 
     <section class="analysis-section">
 
@@ -257,7 +343,7 @@
 
   </main>
 
-  <!-- 07. Live Interface JavaScript -->
+  <!-- 08. Live Interface JavaScript -->
 
   <script src="/js/live.js"></script>
 
