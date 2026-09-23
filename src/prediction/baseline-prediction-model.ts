@@ -64,7 +64,8 @@ export function generateBaselinePrediction(
     confidenceLevel,
     modelName: "baseline-v1",
     generatedAt:
-      new Date().toISOString()
+      new Date().toISOString(),
+    calibration: null
   };
 }
 

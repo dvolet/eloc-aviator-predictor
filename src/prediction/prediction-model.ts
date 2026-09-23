@@ -13,6 +13,15 @@ export type PredictionConfidence =
   | "HIGH"
   | "VERY_HIGH";
 
+export interface PredictionCalibration {
+  sampleSize: number;
+  medianAbsoluteError: number;
+  percentileAbsoluteError: number;
+  errorMultiplier: number;
+  lowerBound: number;
+  upperBound: number;
+}
+
 export interface PredictionModel {
   predictedMultiplier: number;
   lowerBound: number;
@@ -22,4 +31,5 @@ export interface PredictionModel {
   confidenceLevel: PredictionConfidence;
   modelName: string;
   generatedAt: string;
+  calibration: PredictionCalibration | null;
 }

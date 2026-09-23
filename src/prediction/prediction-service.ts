@@ -11,6 +11,10 @@ import {
   generateBaselinePrediction
 } from "./baseline-prediction-model.js";
 
+import {
+  getBaselinePredictionCalibration
+} from "./prediction-calibration-service.js";
+
 import type {
   PredictionModel
 } from "./prediction-model.js";
@@ -27,7 +31,18 @@ export function generatePrediction(
   const predictionInput =
     buildPredictionInput(rounds);
 
-  return generateBaselinePrediction(
-    predictionInput
-  );
+  const prediction =
+    generateBaselinePrediction(
+      predictionInput
+    );
+
+  const calibration =
+    getBaselinePredictionCalibration(
+      prediction.predictedMultiplier
+    );
+
+  return {
+    ...prediction,
+    calibration
+  };
 }

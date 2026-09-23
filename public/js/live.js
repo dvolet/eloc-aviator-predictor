@@ -345,8 +345,10 @@ function setPredictionControlMessage(message) {
 }
 
 function renderPredictionControlState(state) {
-  if (!predictionControlStatusElement ||
-      !predictionControlButton) {
+  if (
+    !predictionControlStatusElement ||
+    !predictionControlButton
+  ) {
     return;
   }
 
@@ -360,6 +362,8 @@ function renderPredictionControlState(state) {
     controlActualMultiplierElement.textContent = "—";
     controlPredictionErrorElement.textContent = "—";
 
+    renderPredictionPlaceholder();
+
     setPredictionControlMessage(
       "Ready to start a prediction session."
     );
@@ -371,15 +375,47 @@ function renderPredictionControlState(state) {
   const prediction = state.prediction;
   const result = state.result;
 
+  if (
+    prediction &&
+    (
+      session.status === "active" ||
+      session.status === "waiting_result"
+    )
+  ) {
+    predictedMultiplierElement.textContent =
+      formatMultiplier(
+        Number(prediction.predicted_multiplier)
+      );
+
+    predictionConfidenceElement.textContent =
+      typeof prediction.confidence === "number"
+        ? formatPercentage(
+            prediction.confidence * 100
+          )
+        : "—";
+
+    predictionModelElement.textContent =
+      prediction.model_name || "—";
+
+    predictionStatusElement.textContent =
+      session.status === "waiting_result"
+        ? "Locked"
+        : "Active";
+  }
+
   controlPredictedMultiplierElement.textContent =
     prediction
-      ? formatMultiplier(Number(prediction.predicted_multiplier))
+      ? formatMultiplier(
+          Number(prediction.predicted_multiplier)
+        )
       : "—";
 
   controlPredictionConfidenceElement.textContent =
     prediction &&
     typeof prediction.confidence === "number"
-      ? formatPercentage(prediction.confidence * 100)
+      ? formatPercentage(
+          prediction.confidence * 100
+        )
       : "—";
 
   controlActualMultiplierElement.textContent =
@@ -395,37 +431,36 @@ function renderPredictionControlState(state) {
 
   if (session.status === "active") {
     predictionControlStatusElement.textContent = "ACTIVE";
-    predictionControlButton.textContent = "PREDICTION ACTIVE";
+    predictionControlButton.textContent =
+      "PREDICTION ACTIVE";
     predictionControlButton.disabled = true;
 
     setPredictionControlMessage(
       "Prediction session is active."
     );
+
     return;
   }
 
   if (session.status === "waiting_result") {
     predictionControlStatusElement.textContent =
       "WAITING FOR RESULT";
-
     predictionControlButton.textContent =
       "WAITING FOR RESULT";
-
     predictionControlButton.disabled = true;
 
     setPredictionControlMessage(
       "Prediction locked. Waiting for the observed round result."
     );
+
     return;
   }
 
   if (session.status === "evaluated") {
     predictionControlStatusElement.textContent =
       "EVALUATED";
-
     predictionControlButton.textContent =
       "START NEXT PREDICTION";
-
     predictionControlButton.disabled = false;
 
     const resultText =
@@ -434,12 +469,15 @@ function renderPredictionControlState(state) {
         : "Prediction evaluated against the observed result.";
 
     setPredictionControlMessage(resultText);
+
     return;
   }
 
   if (session.status === "stopped") {
-    predictionControlStatusElement.textContent = "STOPPED";
-    predictionControlButton.textContent = "START PREDICTION";
+    predictionControlStatusElement.textContent =
+      "STOPPED";
+    predictionControlButton.textContent =
+      "START PREDICTION";
     predictionControlButton.disabled = false;
 
     setPredictionControlMessage(
@@ -447,7 +485,6 @@ function renderPredictionControlState(state) {
     );
   }
 }
-
 async function loadPredictionControlState() {
   try {
     const data =
@@ -519,6 +556,8 @@ async function startPredictionControl() {
     setPredictionControlMessage(
       "Prediction locked. Waiting for the observed round result."
     );
+
+    await loadPredictionControlState();
   } catch (error) {
     predictionControlButton.disabled = false;
     predictionControlStatusElement.textContent =

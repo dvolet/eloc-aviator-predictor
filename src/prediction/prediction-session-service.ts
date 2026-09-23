@@ -45,7 +45,13 @@ export function generateAndLockPrediction(
   }
 
   const rounds =
-    getHistoricalRounds(100);
+    getHistoricalRounds(100)
+      .slice()
+      .sort(
+        (first, second) =>
+          new Date(first.occurred_at).getTime() -
+          new Date(second.occurred_at).getTime()
+      );
 
   if (rounds.length < 10) {
     throw new Error(
