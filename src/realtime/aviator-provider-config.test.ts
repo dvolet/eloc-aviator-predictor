@@ -11,27 +11,42 @@ import {
 
 const originalEnv = {
   AVIATOR_PROVIDER_BASE_URL:
-    process.env.AVIATOR_PROVIDER_BASE_URL,
+    process.env
+      .AVIATOR_PROVIDER_BASE_URL,
+
   AVIATOR_PROVIDER_ID:
-    process.env.AVIATOR_PROVIDER_ID,
-  AVIATOR_PROVIDER_TOKEN:
-    process.env.AVIATOR_PROVIDER_TOKEN,
+    process.env
+      .AVIATOR_PROVIDER_ID,
+
+  AVIATOR_PROVIDER_PUBLIC_KEY:
+    process.env
+      .AVIATOR_PROVIDER_PUBLIC_KEY,
+
   AVIATOR_PROVIDER_TIMEOUT_MS:
-    process.env.AVIATOR_PROVIDER_TIMEOUT_MS
+    process.env
+      .AVIATOR_PROVIDER_TIMEOUT_MS
 };
 
 afterEach(() => {
-  process.env.AVIATOR_PROVIDER_BASE_URL =
-    originalEnv.AVIATOR_PROVIDER_BASE_URL;
+  process.env
+    .AVIATOR_PROVIDER_BASE_URL =
+    originalEnv
+      .AVIATOR_PROVIDER_BASE_URL;
 
-  process.env.AVIATOR_PROVIDER_ID =
-    originalEnv.AVIATOR_PROVIDER_ID;
+  process.env
+    .AVIATOR_PROVIDER_ID =
+    originalEnv
+      .AVIATOR_PROVIDER_ID;
 
-  process.env.AVIATOR_PROVIDER_TOKEN =
-    originalEnv.AVIATOR_PROVIDER_TOKEN;
+  process.env
+    .AVIATOR_PROVIDER_PUBLIC_KEY =
+    originalEnv
+      .AVIATOR_PROVIDER_PUBLIC_KEY;
 
-  process.env.AVIATOR_PROVIDER_TIMEOUT_MS =
-    originalEnv.AVIATOR_PROVIDER_TIMEOUT_MS;
+  process.env
+    .AVIATOR_PROVIDER_TIMEOUT_MS =
+    originalEnv
+      .AVIATOR_PROVIDER_TIMEOUT_MS;
 });
 
 describe(
@@ -40,11 +55,13 @@ describe(
     it(
       "loads required credentials and defaults",
       () => {
-        process.env.AVIATOR_PROVIDER_ID =
+        process.env
+          .AVIATOR_PROVIDER_ID =
           "test-provider";
 
-        process.env.AVIATOR_PROVIDER_TOKEN =
-          "test-token";
+        process.env
+          .AVIATOR_PROVIDER_PUBLIC_KEY =
+          "test-public-key";
 
         delete process.env
           .AVIATOR_PROVIDER_BASE_URL;
@@ -59,9 +76,10 @@ describe(
             "https://gateway.crash.aviator.studio",
           providerId:
             "test-provider",
-          providerToken:
-            "test-token",
-          timeoutMs: 10000
+          providerPublicKey:
+            "test-public-key",
+          timeoutMs:
+            10000
         });
       }
     );
@@ -69,16 +87,20 @@ describe(
     it(
       "accepts custom endpoint and timeout",
       () => {
-        process.env.AVIATOR_PROVIDER_BASE_URL =
+        process.env
+          .AVIATOR_PROVIDER_BASE_URL =
           "https://custom.example";
 
-        process.env.AVIATOR_PROVIDER_ID =
+        process.env
+          .AVIATOR_PROVIDER_ID =
           "test-provider";
 
-        process.env.AVIATOR_PROVIDER_TOKEN =
-          "test-token";
+        process.env
+          .AVIATOR_PROVIDER_PUBLIC_KEY =
+          "test-public-key";
 
-        process.env.AVIATOR_PROVIDER_TIMEOUT_MS =
+        process.env
+          .AVIATOR_PROVIDER_TIMEOUT_MS =
           "15000";
 
         expect(
@@ -88,9 +110,10 @@ describe(
             "https://custom.example",
           providerId:
             "test-provider",
-          providerToken:
-            "test-token",
-          timeoutMs: 15000
+          providerPublicKey:
+            "test-public-key",
+          timeoutMs:
+            15000
         });
       }
     );
@@ -101,8 +124,9 @@ describe(
         delete process.env
           .AVIATOR_PROVIDER_ID;
 
-        process.env.AVIATOR_PROVIDER_TOKEN =
-          "test-token";
+        process.env
+          .AVIATOR_PROVIDER_PUBLIC_KEY =
+          "test-public-key";
 
         expect(() =>
           getAviatorProviderConfig()
@@ -113,18 +137,19 @@ describe(
     );
 
     it(
-      "rejects missing provider token",
+      "rejects missing provider public key",
       () => {
-        process.env.AVIATOR_PROVIDER_ID =
+        process.env
+          .AVIATOR_PROVIDER_ID =
           "test-provider";
 
         delete process.env
-          .AVIATOR_PROVIDER_TOKEN;
+          .AVIATOR_PROVIDER_PUBLIC_KEY;
 
         expect(() =>
           getAviatorProviderConfig()
         ).toThrow(
-          "AVIATOR_PROVIDER_TOKEN"
+          "AVIATOR_PROVIDER_PUBLIC_KEY"
         );
       }
     );
@@ -132,13 +157,16 @@ describe(
     it(
       "rejects invalid timeout",
       () => {
-        process.env.AVIATOR_PROVIDER_ID =
+        process.env
+          .AVIATOR_PROVIDER_ID =
           "test-provider";
 
-        process.env.AVIATOR_PROVIDER_TOKEN =
-          "test-token";
+        process.env
+          .AVIATOR_PROVIDER_PUBLIC_KEY =
+          "test-public-key";
 
-        process.env.AVIATOR_PROVIDER_TIMEOUT_MS =
+        process.env
+          .AVIATOR_PROVIDER_TIMEOUT_MS =
           "invalid";
 
         expect(() =>

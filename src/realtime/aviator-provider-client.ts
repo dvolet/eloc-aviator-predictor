@@ -1,23 +1,30 @@
+import { publicEncrypt, constants } from "node:crypto";
 import { z } from "zod";
 
 import type {
   AviatorFeedObservation
 } from "./aviator-feed-adapter.js";
 
-const providerRoundSchema = z.object({
-  _id: z.string().min(1),
-  multiplierCrash: z.number().finite().positive(),
-  roundEndedAt: z.string().datetime()
-});
+const providerRoundSchema =
+  z.object({
+    _id:
+      z.string().min(1),
+    multiplierCrash:
+      z.number().finite().positive(),
+    roundEndedAt:
+      z.string().datetime()
+  });
 
-const providerResponseSchema = z.object({
-  roundHistory: providerRoundSchema
-});
+const providerResponseSchema =
+  z.object({
+    roundHistory:
+      providerRoundSchema
+  });
 
 export interface AviatorProviderClientConfig {
   baseUrl: string;
   providerId: string;
-  providerToken: string;
+  providerPublicKey: string;
   timeoutMs?: number;
 }
 
@@ -25,6 +32,42 @@ export interface AviatorProviderClient {
   fetchRound(
     roundId: string
   ): Promise<AviatorFeedObservation>;
+}
+
+export function generateAviatorProviderToken(
+  providerPublicKey: string,
+  timestamp = Date.now()
+): string {
+  if (!providerPublicKey.trim()) {
+    throw new Error(
+      "Aviator provider public key is required."
+    );
+  }
+
+  const payload =
+    JSON.stringify({
+      timestamp
+    });
+
+  const encrypted =
+    publicEncrypt(
+      {
+        key:
+          providerPublicKey,
+        padding:
+          constants.RSA_PKCS1_OAEP_PADDING,
+        oaepHash:
+          "sha256"
+      },
+      Buffer.from(
+        payload,
+        "utf8"
+      )
+    );
+
+  return encrypted.toString(
+    "base64"
+  );
 }
 
 export function createAviatorProviderClient(
@@ -59,12 +102,18 @@ export function createAviatorProviderClient(
         roundId
       );
 
+      const providerToken =
+        generateAviatorProviderToken(
+          config.providerPublicKey
+        );
+
       const controller =
         new AbortController();
 
       const timeout =
         setTimeout(
-          () => controller.abort(),
+          () =>
+            controller.abort(),
           timeoutMs
         );
 
@@ -73,16 +122,18 @@ export function createAviatorProviderClient(
           await fetch(
             url,
             {
-              method: "GET",
+              method:
+                "GET",
               headers: {
                 Accept:
                   "application/json",
                 "x-provider-token":
-                  config.providerToken,
+                  providerToken,
                 "x-provider-id":
                   config.providerId
               },
-              signal: controller.signal
+              signal:
+                controller.signal
             }
           );
 
@@ -102,16 +153,22 @@ export function createAviatorProviderClient(
 
         return {
           roundId:
-            validated.roundHistory._id,
+            validated
+              .roundHistory
+              ._id,
           multiplier:
-            validated.roundHistory
+            validated
+              .roundHistory
               .multiplierCrash,
           occurredAt:
-            validated.roundHistory
+            validated
+              .roundHistory
               .roundEndedAt
         };
       } finally {
-        clearTimeout(timeout);
+        clearTimeout(
+          timeout
+        );
       }
     }
   };

@@ -7,8 +7,43 @@ import {
 } from "vitest";
 
 import {
-  createAviatorProviderClient
+  generateKeyPairSync,
+  privateDecrypt,
+  constants
+} from "node:crypto";
+
+import {
+  createAviatorProviderClient,
+  generateAviatorProviderToken
 } from "./aviator-provider-client.js";
+
+const {
+  publicKey,
+  privateKey
+} =
+  generateKeyPairSync(
+    "rsa",
+    {
+      modulusLength:
+        2048
+    }
+  );
+
+const testPublicKey =
+  publicKey.export({
+    type:
+      "spki",
+    format:
+      "pem"
+  }).toString();
+
+const testPrivateKey =
+  privateKey.export({
+    type:
+      "pkcs8",
+    format:
+      "pem"
+  }).toString();
 
 describe(
   "Aviator provider client",
@@ -22,27 +57,29 @@ describe(
       async () => {
         vi.stubGlobal(
           "fetch",
-          vi.fn().mockResolvedValue(
-            new Response(
-              JSON.stringify({
-                roundHistory: {
-                  _id:
-                    "provider-round-001",
-                  multiplierCrash:
-                    5.25,
-                  roundEndedAt:
-                    "2026-09-24T07:00:00.000Z"
+          vi.fn()
+            .mockResolvedValue(
+              new Response(
+                JSON.stringify({
+                  roundHistory: {
+                    _id:
+                      "provider-round-001",
+                    multiplierCrash:
+                      5.25,
+                    roundEndedAt:
+                      "2026-09-24T07:00:00.000Z"
+                  }
+                }),
+                {
+                  status:
+                    200,
+                  headers: {
+                    "Content-Type":
+                      "application/json"
+                  }
                 }
-              }),
-              {
-                status: 200,
-                headers: {
-                  "Content-Type":
-                    "application/json"
-                }
-              }
+              )
             )
-          )
         );
 
         const client =
@@ -51,8 +88,8 @@ describe(
               "https://provider.example",
             providerId:
               "test-provider",
-            providerToken:
-              "test-token"
+            providerPublicKey:
+              testPublicKey
           });
 
         const round =
@@ -60,37 +97,81 @@ describe(
             "provider-round-001"
           );
 
-        expect(round).toEqual({
-          roundId:
-            "provider-round-001",
-          multiplier: 5.25,
-          occurredAt:
-            "2026-09-24T07:00:00.000Z"
+        expect(round)
+          .toEqual({
+            roundId:
+              "provider-round-001",
+            multiplier:
+              5.25,
+            occurredAt:
+              "2026-09-24T07:00:00.000Z"
+          });
+      }
+    );
+
+    it(
+      "generates a decryptable timestamp token",
+      () => {
+        const timestamp =
+          1790233200000;
+
+        const token =
+          generateAviatorProviderToken(
+            testPublicKey,
+            timestamp
+          );
+
+        const decrypted =
+          privateDecrypt(
+            {
+              key:
+                testPrivateKey,
+              padding:
+                constants.RSA_PKCS1_OAEP_PADDING,
+              oaepHash:
+                "sha256"
+            },
+            Buffer.from(
+              token,
+              "base64"
+            )
+          );
+
+        expect(
+          JSON.parse(
+            decrypted.toString(
+              "utf8"
+            )
+          )
+        ).toEqual({
+          timestamp
         });
       }
     );
 
     it(
-      "sends the documented provider authentication headers",
+      "sends a freshly generated provider authentication token",
       async () => {
         const fetchMock =
-          vi.fn().mockResolvedValue(
-            new Response(
-              JSON.stringify({
-                roundHistory: {
-                  _id:
-                    "provider-round-002",
-                  multiplierCrash:
-                    1.83,
-                  roundEndedAt:
-                    "2026-09-24T07:01:00.000Z"
+          vi.fn()
+            .mockResolvedValue(
+              new Response(
+                JSON.stringify({
+                  roundHistory: {
+                    _id:
+                      "provider-round-002",
+                    multiplierCrash:
+                      1.83,
+                    roundEndedAt:
+                      "2026-09-24T07:01:00.000Z"
+                  }
+                }),
+                {
+                  status:
+                    200
                 }
-              }),
-              {
-                status: 200
-              }
-            )
-          );
+              )
+            );
 
         vi.stubGlobal(
           "fetch",
@@ -103,8 +184,8 @@ describe(
               "https://provider.example",
             providerId:
               "test-provider",
-            providerToken:
-              "test-token"
+            providerPublicKey:
+              testPublicKey
           });
 
         await client.fetchRound(
@@ -112,12 +193,15 @@ describe(
         );
 
         expect(fetchMock)
-          .toHaveBeenCalledTimes(1);
+          .toHaveBeenCalledTimes(
+            1
+          );
 
         const [
           requestedUrl,
           options
-        ] = fetchMock.mock.calls[0];
+        ] =
+          fetchMock.mock.calls[0];
 
         expect(
           String(requestedUrl)
@@ -137,12 +221,59 @@ describe(
           "roundId=provider-round-002"
         );
 
-        expect(
+        const token =
           options.headers[
             "x-provider-token"
-          ]
+          ];
+
+        expect(
+          typeof token
         ).toBe(
-          "test-token"
+          "string"
+        );
+
+        expect(
+          token.length
+        ).toBeGreaterThan(
+          20
+        );
+
+        const decrypted =
+          privateDecrypt(
+            {
+              key:
+                testPrivateKey,
+              padding:
+                constants.RSA_PKCS1_OAEP_PADDING,
+              oaepHash:
+                "sha256"
+            },
+            Buffer.from(
+              token,
+              "base64"
+            )
+          );
+
+        const payload =
+          JSON.parse(
+            decrypted.toString(
+              "utf8"
+            )
+          );
+
+        expect(
+          Number.isInteger(
+            payload.timestamp
+          )
+        ).toBe(true);
+
+        expect(
+          Math.abs(
+            Date.now() -
+              payload.timestamp
+          )
+        ).toBeLessThan(
+          5000
         );
 
         expect(
@@ -160,14 +291,16 @@ describe(
       async () => {
         vi.stubGlobal(
           "fetch",
-          vi.fn().mockResolvedValue(
-            new Response(
-              "Unauthorized",
-              {
-                status: 401
-              }
+          vi.fn()
+            .mockResolvedValue(
+              new Response(
+                "Unauthorized",
+                {
+                  status:
+                    401
+                }
+              )
             )
-          )
         );
 
         const client =
@@ -176,8 +309,8 @@ describe(
               "https://provider.example",
             providerId:
               "test-provider",
-            providerToken:
-              "test-token"
+            providerPublicKey:
+              testPublicKey
           });
 
         await expect(
@@ -195,22 +328,25 @@ describe(
       async () => {
         vi.stubGlobal(
           "fetch",
-          vi.fn().mockResolvedValue(
-            new Response(
-              JSON.stringify({
-                roundHistory: {
-                  _id:
-                    "provider-round-invalid",
-                  multiplierCrash: 0,
-                  roundEndedAt:
-                    "not-a-date"
+          vi.fn()
+            .mockResolvedValue(
+              new Response(
+                JSON.stringify({
+                  roundHistory: {
+                    _id:
+                      "provider-round-invalid",
+                    multiplierCrash:
+                      0,
+                    roundEndedAt:
+                      "not-a-date"
+                  }
+                }),
+                {
+                  status:
+                    200
                 }
-              }),
-              {
-                status: 200
-              }
+              )
             )
-          )
         );
 
         const client =
@@ -219,8 +355,8 @@ describe(
               "https://provider.example",
             providerId:
               "test-provider",
-            providerToken:
-              "test-token"
+            providerPublicKey:
+              testPublicKey
           });
 
         await expect(
@@ -240,12 +376,14 @@ describe(
               "https://provider.example",
             providerId:
               "test-provider",
-            providerToken:
-              "test-token"
+            providerPublicKey:
+              testPublicKey
           });
 
         await expect(
-          client.fetchRound("   ")
+          client.fetchRound(
+            "   "
+          )
         ).rejects.toThrow(
           "Aviator round ID is required."
         );

@@ -27,13 +27,14 @@ export function getAviatorProviderConfig():
       "AVIATOR_PROVIDER_ID"
     );
 
-  const providerToken =
+  const providerPublicKey =
     readRequired(
-      "AVIATOR_PROVIDER_TOKEN"
+      "AVIATOR_PROVIDER_PUBLIC_KEY"
     );
 
   const timeoutValue =
-    process.env.AVIATOR_PROVIDER_TIMEOUT_MS;
+    process.env
+      .AVIATOR_PROVIDER_TIMEOUT_MS;
 
   const timeoutMs =
     timeoutValue === undefined
@@ -51,12 +52,14 @@ export function getAviatorProviderConfig():
 
   return {
     baseUrl:
-      process.env.AVIATOR_PROVIDER_BASE_URL?.trim() ||
+      process.env
+        .AVIATOR_PROVIDER_BASE_URL
+        ?.trim() ||
       DEFAULT_BASE_URL,
 
     providerId,
 
-    providerToken,
+    providerPublicKey,
 
     timeoutMs
   };
