@@ -102,23 +102,36 @@ export function startPredictionSession(
   const sessionId =
     createPredictionSession({ userId });
 
-  const startedAt = now();
+  try {
+    const startedAt = now();
 
-  markPredictionSessionStarted(
-    sessionId,
-    startedAt
-  );
-
-  const session =
-    getPredictionSessionById(sessionId);
-
-  if (!session) {
-    throw new Error(
-      "Unable to create prediction session"
+    markPredictionSessionStarted(
+      sessionId,
+      startedAt
     );
-  }
 
-  return session;
+    const session =
+      getPredictionSessionById(sessionId);
+
+    if (!session) {
+      throw new Error(
+        "Unable to create prediction session"
+      );
+    }
+
+    return session;
+  } catch (error) {
+    try {
+      stopPredictionSession(sessionId);
+    } catch (cleanupError) {
+      console.error(
+        `Unable to clean up failed prediction session ${sessionId}:`,
+        cleanupError
+      );
+    }
+
+    throw error;
+  }
 }
 
 export function lockPredictionForSession(
