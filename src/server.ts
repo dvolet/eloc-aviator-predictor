@@ -11,6 +11,9 @@ import { cleanupSessions } from "./auth/session-cleanup-service.js";
 import {
   createAviatorLiveIngestionComposition
 } from "./realtime/aviator-live-ingestion-composition.js";
+import {
+  getAviatorLiveIngestionConfig
+} from "./realtime/aviator-live-ingestion-config.js";
 
 // 01. Server Configuration
 // ------------------------
@@ -53,10 +56,19 @@ initializePredictionSessionEvents();
 // 05. Aviator Live Ingestion
 // --------------------------
 
-const aviatorLiveIngestion =
-  createAviatorLiveIngestionComposition();
+const aviatorLiveIngestionConfig =
+  getAviatorLiveIngestionConfig();
 
-aviatorLiveIngestion.runtime.start();
+if (aviatorLiveIngestionConfig.enabled) {
+  const aviatorLiveIngestion =
+    createAviatorLiveIngestionComposition();
+
+  aviatorLiveIngestion.runtime.start();
+} else {
+  console.log(
+    "Aviator live ingestion is disabled."
+  );
+}
 
 // 06. HTTP Server
 // ---------------
