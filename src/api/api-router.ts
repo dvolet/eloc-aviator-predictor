@@ -30,6 +30,9 @@ import {
 import {
   createAviatorProviderHistoryService
 } from "../realtime/aviator-provider-history-service.js";
+import {
+  aviatorAuthorizedRoundDiscovery
+} from "../realtime/aviator-authorized-round-discovery.js";
 
 
 import {
@@ -248,6 +251,51 @@ apiRouter.post(
           error instanceof Error
             ? error.message
             : "Invalid Aviator feed observation"
+      });
+    }
+  }
+);
+
+// 19.03 Aviator Authorized Round Discovery API
+// ----------------------------------------------
+
+apiRouter.post(
+  "/aviator-discovery/current-round",
+  requireAuthentication,
+  requireRole("admin"),
+  (req: AuthenticatedRequest, res) => {
+    try {
+      const roundId = req.body?.roundId;
+
+      if (
+        typeof roundId !== "string" ||
+        !roundId.trim()
+      ) {
+        res.status(400).json({
+          success: false,
+          error: "Current Aviator round ID is required"
+        });
+        return;
+      }
+
+      const normalizedRoundId = roundId.trim();
+
+      aviatorAuthorizedRoundDiscovery.setCurrentRoundId(
+        normalizedRoundId
+      );
+
+      res.status(200).json({
+        success: true,
+        roundId: normalizedRoundId,
+        source: "authorized_round_feed"
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to set current Aviator round ID"
       });
     }
   }
