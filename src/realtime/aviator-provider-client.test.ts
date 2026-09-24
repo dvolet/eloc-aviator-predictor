@@ -66,6 +66,8 @@ describe(
                       "provider-round-001",
                     multiplierCrash:
                       5.25,
+                    previousRoundId:
+                      "provider-round-000",
                     roundEndedAt:
                       "2026-09-24T07:00:00.000Z"
                   }
@@ -104,7 +106,9 @@ describe(
             multiplier:
               5.25,
             occurredAt:
-              "2026-09-24T07:00:00.000Z"
+              "2026-09-24T07:00:00.000Z",
+            previousRoundId:
+              "provider-round-000"
           });
       }
     );
@@ -162,6 +166,8 @@ describe(
                       "provider-round-002",
                     multiplierCrash:
                       1.83,
+                    previousRoundId:
+                      "provider-round-001",
                     roundEndedAt:
                       "2026-09-24T07:01:00.000Z"
                   }
@@ -337,6 +343,8 @@ describe(
                       "provider-round-invalid",
                     multiplierCrash:
                       0,
+                    previousRoundId:
+                      "provider-round-invalid-previous",
                     roundEndedAt:
                       "not-a-date"
                   }

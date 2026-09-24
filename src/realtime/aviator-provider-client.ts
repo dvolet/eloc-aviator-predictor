@@ -11,6 +11,8 @@ const providerRoundSchema =
       z.string().min(1),
     multiplierCrash:
       z.number().finite().positive(),
+    previousRoundId:
+      z.string().min(1).nullable().optional(),
     roundEndedAt:
       z.string().datetime()
   });
@@ -28,10 +30,15 @@ export interface AviatorProviderClientConfig {
   timeoutMs?: number;
 }
 
+export interface AviatorProviderRound
+  extends AviatorFeedObservation {
+  previousRoundId: string | null;
+}
+
 export interface AviatorProviderClient {
   fetchRound(
     roundId: string
-  ): Promise<AviatorFeedObservation>;
+  ): Promise<AviatorProviderRound>;
 }
 
 export function generateAviatorProviderToken(
@@ -79,7 +86,7 @@ export function createAviatorProviderClient(
   return {
     async fetchRound(
       roundId: string
-    ): Promise<AviatorFeedObservation> {
+    ): Promise<AviatorProviderRound> {
       if (!roundId.trim()) {
         throw new Error(
           "Aviator round ID is required."
@@ -163,7 +170,12 @@ export function createAviatorProviderClient(
           occurredAt:
             validated
               .roundHistory
-              .roundEndedAt
+              .roundEndedAt,
+          previousRoundId:
+            validated
+              .roundHistory
+              .previousRoundId ??
+            null
         };
       } finally {
         clearTimeout(
