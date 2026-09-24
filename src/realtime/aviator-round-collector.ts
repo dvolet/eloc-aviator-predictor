@@ -44,32 +44,29 @@ function validateObservation(
 }
 
 export function createAviatorRoundCollector(): AviatorRoundCollector {
-  const processedRoundIds = new Set<string>();
-
   return {
     ingest(observation: AviatorRoundObservation): number {
       const validated = validateObservation(observation);
-
-      if (validated.roundId) {
-        if (processedRoundIds.has(validated.roundId)) {
-          throw new Error(
-            `Aviator round ${validated.roundId} has already been processed.`
-          );
-        }
-
-        processedRoundIds.add(validated.roundId);
-      }
 
       try {
         return recordObservedRound({
           multiplier: validated.multiplier,
           occurredAt: validated.occurredAt,
           durationMs: validated.durationMs,
-          source: validated.source ?? "authorized_feed"
+          source: validated.source ?? "authorized_feed",
+          providerRoundId: validated.roundId
         });
       } catch (error) {
-        if (validated.roundId) {
-          processedRoundIds.delete(validated.roundId);
+        if (
+          validated.roundId &&
+          error instanceof Error &&
+          error.message.includes(
+            "UNIQUE constraint failed: aviator_round_sources.source, aviator_round_sources.provider_round_id"
+          )
+        ) {
+          throw new Error(
+            `Aviator round ${validated.roundId} has already been processed.`
+          );
         }
 
         throw error;
@@ -77,7 +74,8 @@ export function createAviatorRoundCollector(): AviatorRoundCollector {
     },
 
     reset(): void {
-      processedRoundIds.clear();
+      // Provider round IDs are persisted in SQLite.
+      // Reset intentionally does not clear duplicate protection.
     }
   };
 }

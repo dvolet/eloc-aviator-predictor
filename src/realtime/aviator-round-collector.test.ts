@@ -127,7 +127,58 @@ describe("Aviator round collector", () => {
     );
   });
 
-  it("allows a round ID to be reused after reset", () => {
+  it("keeps provider round IDs blocked across collector instances", () => {
+    const firstCollector =
+      createAviatorRoundCollector();
+
+    const firstRoundId =
+      firstCollector.ingest({
+        roundId: "persistent-round-001",
+        multiplier: 2.95,
+        source: "authorized_feed"
+      });
+
+    createdRoundIds.push(firstRoundId);
+
+    const secondCollector =
+      createAviatorRoundCollector();
+
+    expect(() =>
+      secondCollector.ingest({
+        roundId: "persistent-round-001",
+        multiplier: 3.95,
+        source: "authorized_feed"
+      })
+    ).toThrow(
+      "has already been processed"
+    );
+
+    const persistedMapping =
+      db.prepare(`
+        SELECT
+          round_id,
+          provider_round_id,
+          source
+        FROM aviator_round_sources
+        WHERE provider_round_id = ?
+          AND source = ?
+      `).get(
+        "persistent-round-001",
+        "authorized_feed"
+      ) as {
+        round_id: number;
+        provider_round_id: string;
+        source: string;
+      } | undefined;
+
+    expect(persistedMapping).toEqual({
+      round_id: firstRoundId,
+      provider_round_id: "persistent-round-001",
+      source: "authorized_feed"
+    });
+  });
+
+  it("keeps provider round IDs blocked after reset", () => {
     const collector =
       createAviatorRoundCollector();
 
@@ -142,17 +193,14 @@ describe("Aviator round collector", () => {
 
     collector.reset();
 
-    const secondRoundId =
+    expect(() =>
       collector.ingest({
         roundId: "reset-round-001",
         multiplier: 4.25,
         source: "manual"
-      });
-
-    createdRoundIds.push(secondRoundId);
-
-    expect(secondRoundId).toBeGreaterThan(
-      firstRoundId
+      })
+    ).toThrow(
+      "has already been processed"
     );
   });
 });

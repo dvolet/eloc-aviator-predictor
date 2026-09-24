@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
+import request from "supertest";
 
 import { db } from "../database/database.js";
+import { app } from "../app.js";
 import { initializeDatabase } from "../database/schema.js";
 
 import {
@@ -55,23 +57,17 @@ describe(
           adminLogin.session.sessionToken;
 
         const response =
-          await fetch(
-            "http://127.0.0.1:5000/api/admin/users/"
-              + user.id
-              + "/role",
-            {
-              method: "PATCH",
-              headers: {
-                "Authorization":
-                  `Bearer ${token}`,
-                "Content-Type":
-                  "application/json"
-              },
-              body: JSON.stringify({
-                role: "admin"
-              })
-            }
-          );
+          await request(app)
+            .patch(
+              "/api/admin/users/" + user.id + "/role"
+            )
+            .set(
+              "Authorization",
+              `Bearer ${token}`
+            )
+            .send({
+              role: "admin"
+            });
 
         expect(response.status)
           .toBe(200);

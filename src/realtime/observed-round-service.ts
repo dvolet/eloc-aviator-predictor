@@ -1,3 +1,4 @@
+import { db } from "../database/database.js";
 import {
   recordRound
 } from "../database/round-service.js";
@@ -9,6 +10,7 @@ export interface ObservedRoundInput {
   occurredAt?: string;
   durationMs?: number | null;
   source?: RoundSource;
+  providerRoundId?: string;
 }
 
 export function recordObservedRound(
@@ -17,12 +19,35 @@ export function recordObservedRound(
   const occurredAt =
     data.occurredAt ?? new Date().toISOString();
 
-  const databaseRoundId = recordRound({
-    multiplier: data.multiplier,
-    occurredAt,
-    durationMs: data.durationMs ?? null,
-    source: data.source ?? "unknown"
-  });
+  const source =
+    data.source ?? "unknown";
+
+  const databaseRoundId =
+    db.transaction(() => {
+      const roundId = recordRound({
+        multiplier: data.multiplier,
+        occurredAt,
+        durationMs: data.durationMs ?? null,
+        source
+      });
+
+      if (data.providerRoundId) {
+        db.prepare(`
+          INSERT INTO aviator_round_sources (
+            round_id,
+            provider_round_id,
+            source
+          )
+          VALUES (?, ?, ?)
+        `).run(
+          roundId,
+          data.providerRoundId,
+          source
+        );
+      }
+
+      return roundId;
+    })();
 
   publishEvent({
     type: "ROUND_CRASHED",

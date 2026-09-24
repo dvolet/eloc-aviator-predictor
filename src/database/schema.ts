@@ -58,6 +58,24 @@ export function initializeDatabase(): void {
       )
     );
 
+    CREATE TABLE IF NOT EXISTS aviator_round_sources (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      round_id INTEGER NOT NULL,
+      provider_round_id TEXT NOT NULL,
+      source TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (round_id)
+        REFERENCES rounds(id)
+        ON DELETE CASCADE,
+      UNIQUE (source, provider_round_id)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_aviator_round_sources_round_id
+      ON aviator_round_sources(round_id);
+
+    CREATE INDEX IF NOT EXISTS idx_aviator_round_sources_provider_round_id
+      ON aviator_round_sources(provider_round_id);
+
     CREATE INDEX IF NOT EXISTS idx_prediction_sessions_user_id
       ON prediction_sessions(user_id);
 

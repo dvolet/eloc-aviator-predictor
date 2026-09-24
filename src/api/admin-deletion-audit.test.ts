@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
+import request from "supertest";
 
 import { db } from "../database/database.js";
+import { app } from "../app.js";
 import { initializeDatabase } from "../database/schema.js";
 
 import {
@@ -55,17 +57,14 @@ describe(
           adminLogin.session.sessionToken;
 
         const response =
-          await fetch(
-            "http://127.0.0.1:5000/api/admin/users/"
-              + user.id,
-            {
-              method: "DELETE",
-              headers: {
-                "Authorization":
-                  `Bearer ${token}`
-              }
-            }
-          );
+          await request(app)
+            .delete(
+              "/api/admin/users/" + user.id
+            )
+            .set(
+              "Authorization",
+              `Bearer ${token}`
+            );
 
         expect(response.status)
           .toBe(200);
