@@ -8,6 +8,9 @@ import { initializeWebSocketEvents } from "./realtime/websocket-events.js";
 import { initializePredictionSessionEvents } from "./prediction/prediction-session-events.js";
 import { initializeDatabase } from "./database/schema.js";
 import { cleanupSessions } from "./auth/session-cleanup-service.js";
+import {
+  createAviatorLiveIngestionComposition
+} from "./realtime/aviator-live-ingestion-composition.js";
 
 // 01. Server Configuration
 // ------------------------
@@ -47,17 +50,25 @@ setInterval(
 initializeWebSocketEvents();
 initializePredictionSessionEvents();
 
-// 05. HTTP Server
+// 05. Aviator Live Ingestion
+// --------------------------
+
+const aviatorLiveIngestion =
+  createAviatorLiveIngestionComposition();
+
+aviatorLiveIngestion.runtime.start();
+
+// 06. HTTP Server
 // ---------------
 
 const httpServer = createServer(app);
 
-// 06. WebSocket Server
+// 07. WebSocket Server
 // --------------------
 
 startWebSocketServer(httpServer);
 
-// 07. Start Server
+// 08. Start Server
 // ----------------
 
 httpServer.listen(
