@@ -40,6 +40,29 @@ describe("prediction service", () => {
       )
     ).toBe(true);
 
-    expect(prediction.calibration).toBeNull();
+    if (prediction.calibration === null) {
+      throw new Error(
+        "Expected calibration metadata once enough evaluated predictions are available"
+      );
+    }
+
+    expect(prediction.calibration.sampleSize)
+      .toBeGreaterThanOrEqual(20);
+
+    expect(
+      Number.isFinite(
+        prediction.calibration.errorMultiplier
+      )
+    ).toBe(true);
+
+    expect(
+      prediction.calibration.lowerBound
+    ).toBeGreaterThanOrEqual(1);
+
+    expect(
+      prediction.calibration.upperBound
+    ).toBeGreaterThan(
+      prediction.calibration.lowerBound
+    );
   });
 });

@@ -13,6 +13,10 @@ import {
 } from "../realtime/observed-round-service.js";
 
 import {
+  aviatorFeedAdapter
+} from "../realtime/aviator-feed-adapter.js";
+
+import {
   recordRound
 } from "../database/round-service.js";
 
@@ -203,8 +207,39 @@ apiRouter.post(
   }
 );
 
-// 19.02 Prediction Session API
-// -----------------------------
+// 19.02 Aviator Feed Ingestion API
+// ---------------------------------
+
+apiRouter.post(
+  "/aviator-feed/round",
+  requireAuthentication,
+  requireRole("admin"),
+  (req: AuthenticatedRequest, res) => {
+    try {
+      const roundId =
+        aviatorFeedAdapter.ingest(
+          req.body
+        );
+
+      res.status(201).json({
+        success: true,
+        roundId
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Invalid Aviator feed observation"
+      });
+    }
+  }
+);
+
+// 19.03 Prediction Session API
+// ----------------------------
+
 
 apiRouter.post(
   "/prediction-session/start",

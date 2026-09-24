@@ -12,7 +12,7 @@ import {
 } from "../database/schema.js";
 
 import {
-  findUserById
+  createUser
 } from "../auth/user-service.js";
 
 import {
@@ -26,9 +26,16 @@ describe(
   () => {
     it(
       "returns dashboard data for an authenticated user",
-      () => {
+      async () => {
+        const email =
+          `dashboard-service-${Date.now()}@example.com`;
+
         const user =
-          findUserById(1);
+          await createUser(
+            email,
+            "DashboardServicePassword123",
+            "user"
+          );
 
         expect(user)
           .not
@@ -42,12 +49,10 @@ describe(
           );
 
         expect(dashboard.user.id)
-          .toBe(1);
+          .toBe(user.id);
 
         expect(dashboard.user.email)
-          .toBe(
-            "testuser@example.com"
-          );
+          .toBe(email);
 
         expect(
           Array.isArray(
@@ -70,9 +75,13 @@ describe(
 
     it(
       "respects prediction and round limits",
-      () => {
+      async () => {
         const user =
-          findUserById(1);
+          await createUser(
+            `dashboard-limit-${Date.now()}@example.com`,
+            "DashboardLimitPassword123",
+            "user"
+          );
 
         expect(user)
           .not

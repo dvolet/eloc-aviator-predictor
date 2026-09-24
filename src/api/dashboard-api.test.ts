@@ -13,6 +13,16 @@ import {
   app
 } from "../app.js";
 
+import {
+  initializeDatabase
+} from "../database/schema.js";
+
+import {
+  createUser
+} from "../auth/user-service.js";
+
+initializeDatabase();
+
 describe(
   "dashboard API",
   () => {
@@ -39,14 +49,25 @@ describe(
     it(
       "returns dashboard data for an authenticated user",
       async () => {
+        const email =
+          `dashboard-${Date.now()}@example.com`;
+
+        const password =
+          "DashboardPassword123";
+
+        const user =
+          await createUser(
+            email,
+            password,
+            "user"
+          );
+
         const loginResponse =
           await request(app)
             .post("/api/auth/login")
             .send({
-              email:
-                "testuser@example.com",
-              password:
-                "TestPassword123"
+              email,
+              password
             });
 
         expect(loginResponse.status)
@@ -77,13 +98,11 @@ describe(
 
         expect(
           response.body.dashboard.user.id
-        ).toBe(1);
+        ).toBe(user.id);
 
         expect(
           response.body.dashboard.user.email
-        ).toBe(
-          "testuser@example.com"
-        );
+        ).toBe(email);
 
         expect(
           Array.isArray(

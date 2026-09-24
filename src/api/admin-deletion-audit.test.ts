@@ -32,10 +32,23 @@ describe(
             "user"
           );
 
+        const adminEmail =
+          `admin-deletion-${Date.now()}@example.com`;
+
+        const adminPassword =
+          "AdminDeletionPassword123";
+
+        const adminUser =
+          await createUser(
+            adminEmail,
+            adminPassword,
+            "admin"
+          );
+
         const adminLogin =
           await loginUser(
-            "admin@example.com",
-            "AdminPassword123"
+            adminEmail,
+            adminPassword
           );
 
         const token =
@@ -69,7 +82,7 @@ describe(
                 'user_deleted'
             ORDER BY id DESC
             LIMIT 1
-          `).get(2) as
+          `).get(adminUser.id) as
             | {
                 user_id: number;
                 event_type: string;
@@ -81,7 +94,7 @@ describe(
           .toBeDefined();
 
         expect(auditLog?.user_id)
-          .toBe(2);
+          .toBe(adminUser.id);
 
         expect(auditLog?.event_type)
           .toBe(
