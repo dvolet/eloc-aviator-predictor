@@ -15,6 +15,18 @@ import {
 import {
   aviatorFeedAdapter
 } from "../realtime/aviator-feed-adapter.js";
+import {
+  createAviatorProviderClient
+} from "../realtime/aviator-provider-client.js";
+
+import {
+  getAviatorProviderConfig
+} from "../realtime/aviator-provider-config.js";
+
+import {
+  createAviatorProviderIngestionService
+} from "../realtime/aviator-provider-ingestion-service.js";
+
 
 import {
   recordRound
@@ -237,7 +249,64 @@ apiRouter.post(
   }
 );
 
-// 19.03 Prediction Session API
+// 19.03 Aviator Provider Ingestion API
+// -------------------------------------
+
+apiRouter.post(
+  "/aviator-provider/round",
+  requireAuthentication,
+  requireRole("admin"),
+  async (req: AuthenticatedRequest, res) => {
+    try {
+      const roundId =
+        req.body?.roundId;
+
+      if (
+        typeof roundId !== "string" ||
+        !roundId.trim()
+      ) {
+        res.status(400).json({
+          success: false,
+          error:
+            "Provider round ID is required"
+        });
+        return;
+      }
+
+      const client =
+        createAviatorProviderClient(
+          getAviatorProviderConfig()
+        );
+
+      const service =
+        createAviatorProviderIngestionService(
+          client
+        );
+
+      const databaseRoundId =
+        await service.ingestRound(
+          roundId.trim()
+        );
+
+      res.status(201).json({
+        success: true,
+        roundId:
+          roundId.trim(),
+        databaseRoundId
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to ingest Aviator provider round"
+      });
+    }
+  }
+);
+
+// 19.04 Prediction Session API
 // ----------------------------
 
 

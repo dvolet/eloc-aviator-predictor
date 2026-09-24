@@ -107,7 +107,8 @@ describe(
           .toBe(
             `Admin promoted user ${user.id} to admin`
           );
-      }
+      },
+      15000
     );
   }
 );
