@@ -27,6 +27,10 @@ import {
   createAviatorProviderIngestionService
 } from "../realtime/aviator-provider-ingestion-service.js";
 
+import {
+  createAviatorProviderHistoryService
+} from "../realtime/aviator-provider-history-service.js";
+
 
 import {
   recordRound
@@ -301,6 +305,86 @@ apiRouter.post(
           error instanceof Error
             ? error.message
             : "Unable to ingest Aviator provider round"
+      });
+    }
+  }
+);
+
+// 19.04 Aviator Provider History Backfill API
+// --------------------------------------------
+
+apiRouter.post(
+  "/aviator-provider/history/backfill",
+  requireAuthentication,
+  requireRole("admin"),
+  async (req: AuthenticatedRequest, res) => {
+    try {
+      const roundId =
+        req.body?.roundId;
+
+      const maxRounds =
+        req.body?.maxRounds;
+
+      if (
+        typeof roundId !== "string" ||
+        !roundId.trim()
+      ) {
+        res.status(400).json({
+          success: false,
+          error:
+            "Provider starting round ID is required"
+        });
+        return;
+      }
+
+      if (
+        !Number.isInteger(maxRounds) ||
+        maxRounds <= 0 ||
+        maxRounds > 100
+      ) {
+        res.status(400).json({
+          success: false,
+          error:
+            "maxRounds must be an integer between 1 and 100"
+        });
+        return;
+      }
+
+      const client =
+        createAviatorProviderClient(
+          getAviatorProviderConfig()
+        );
+
+      const ingestionService =
+        createAviatorProviderIngestionService(
+          client
+        );
+
+      const historyService =
+        createAviatorProviderHistoryService(
+          client,
+          ingestionService
+        );
+
+      const result =
+        await historyService.backfill(
+          roundId.trim(),
+          {
+            maxRounds
+          }
+        );
+
+      res.status(200).json({
+        success: true,
+        result
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to backfill Aviator provider history"
       });
     }
   }

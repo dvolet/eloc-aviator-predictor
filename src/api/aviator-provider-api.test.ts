@@ -17,6 +17,10 @@ initializeDatabase();
 const ingestRoundMock =
   vi.fn();
 
+
+const backfillMock =
+  vi.fn();
+
 vi.mock(
   "../realtime/aviator-provider-client.js",
   () => ({
@@ -41,6 +45,18 @@ vi.mock(
           "test-token",
         timeoutMs:
           10000
+      }))
+  })
+);
+
+
+vi.mock(
+  "../realtime/aviator-provider-history-service.js",
+  () => ({
+    createAviatorProviderHistoryService:
+      vi.fn(() => ({
+        backfill:
+          backfillMock
       }))
   })
 );
@@ -238,6 +254,385 @@ describe(
           ingestRoundMock
         ).toHaveBeenCalledWith(
           "provider-round-003"
+        );
+      }
+    );
+
+    it(
+      "rejects unauthenticated history backfill requests",
+      async () => {
+        const response =
+          await request(app)
+            .post(
+              "/api/aviator-provider/history/backfill"
+            )
+            .send({
+              roundId:
+                "history-round-001",
+              maxRounds:
+                10
+            });
+
+        expect(
+          response.status
+        ).toBe(401);
+
+        expect(
+          response.body.success
+        ).toBe(false);
+      }
+    );
+
+    it(
+      "rejects normal users from history backfill",
+      async () => {
+        const email =
+          `history-api-user-${Date.now()}@example.com`;
+
+        const password =
+          "HistoryApiUserPassword123";
+
+        await createUser(
+          email,
+          password,
+          "user"
+        );
+
+        const token =
+          await login(
+            email,
+            password
+          );
+
+        const response =
+          await request(app)
+            .post(
+              "/api/aviator-provider/history/backfill"
+            )
+            .set(
+              "Authorization",
+              `Bearer ${token}`
+            )
+            .send({
+              roundId:
+                "history-round-002",
+              maxRounds:
+                10
+            });
+
+        expect(
+          response.status
+        ).toBe(403);
+
+        expect(
+          response.body.success
+        ).toBe(false);
+      }
+    );
+
+    it(
+      "rejects a missing history starting round ID",
+      async () => {
+        const email =
+          `history-api-invalid-round-${Date.now()}@example.com`;
+
+        const password =
+          "HistoryApiInvalidRoundPassword123";
+
+        await createUser(
+          email,
+          password,
+          "admin"
+        );
+
+        const token =
+          await login(
+            email,
+            password
+          );
+
+        const response =
+          await request(app)
+            .post(
+              "/api/aviator-provider/history/backfill"
+            )
+            .set(
+              "Authorization",
+              `Bearer ${token}`
+            )
+            .send({
+              maxRounds:
+                10
+            });
+
+        expect(
+          response.status
+        ).toBe(400);
+
+        expect(
+          response.body.error
+        ).toBe(
+          "Provider starting round ID is required"
+        );
+      }
+    );
+
+    it(
+      "rejects an invalid history maximum",
+      async () => {
+        const email =
+          `history-api-invalid-max-${Date.now()}@example.com`;
+
+        const password =
+          "HistoryApiInvalidMaxPassword123";
+
+        await createUser(
+          email,
+          password,
+          "admin"
+        );
+
+        const token =
+          await login(
+            email,
+            password
+          );
+
+        const response =
+          await request(app)
+            .post(
+              "/api/aviator-provider/history/backfill"
+            )
+            .set(
+              "Authorization",
+              `Bearer ${token}`
+            )
+            .send({
+              roundId:
+                "history-round-003",
+              maxRounds:
+                101
+            });
+
+        expect(
+          response.status
+        ).toBe(400);
+
+        expect(
+          response.body.error
+        ).toBe(
+          "maxRounds must be an integer between 1 and 100"
+        );
+      }
+    );
+
+    it(
+      "rejects a zero history maximum",
+      async () => {
+        const email =
+          `history-api-zero-max-${Date.now()}@example.com`;
+
+        const password =
+          "HistoryApiZeroMaxPassword123";
+
+        await createUser(
+          email,
+          password,
+          "admin"
+        );
+
+        const token =
+          await login(
+            email,
+            password
+          );
+
+        const response =
+          await request(app)
+            .post(
+              "/api/aviator-provider/history/backfill"
+            )
+            .set(
+              "Authorization",
+              `Bearer ${token}`
+            )
+            .send({
+              roundId:
+                "history-round-zero-max",
+              maxRounds:
+                0
+            });
+
+        expect(
+          response.status
+        ).toBe(400);
+
+        expect(
+          response.body.success
+        ).toBe(false);
+
+        expect(
+          response.body.error
+        ).toBe(
+          "maxRounds must be an integer between 1 and 100"
+        );
+      }
+    );
+
+    it(
+      "backfills provider history for an admin",
+      async () => {
+        const email =
+          `history-api-admin-${Date.now()}@example.com`;
+
+        const password =
+          "HistoryApiAdminPassword123";
+
+        await createUser(
+          email,
+          password,
+          "admin"
+        );
+
+        const token =
+          await login(
+            email,
+            password
+          );
+
+        backfillMock
+          .mockResolvedValueOnce({
+            requestedRoundId:
+              "history-round-004",
+            processedRoundIds: [
+              "history-round-004",
+              "history-round-003"
+            ],
+            databaseRoundIds: [
+              1001,
+              1002
+            ],
+            stoppedAtRoundId:
+              "history-round-003",
+            reachedBeginning:
+              true,
+            reachedLimit:
+              false
+          });
+
+        const response =
+          await request(app)
+            .post(
+              "/api/aviator-provider/history/backfill"
+            )
+            .set(
+              "Authorization",
+              `Bearer ${token}`
+            )
+            .send({
+              roundId:
+                "history-round-004",
+              maxRounds:
+                10
+            });
+
+        expect(
+          response.status
+        ).toBe(200);
+
+        expect(
+          response.body
+        ).toEqual({
+          success:
+            true,
+          result: {
+            requestedRoundId:
+              "history-round-004",
+            processedRoundIds: [
+              "history-round-004",
+              "history-round-003"
+            ],
+            databaseRoundIds: [
+              1001,
+              1002
+            ],
+            stoppedAtRoundId:
+              "history-round-003",
+            reachedBeginning:
+              true,
+            reachedLimit:
+              false
+          }
+        });
+
+        expect(
+          backfillMock
+        ).toHaveBeenCalledWith(
+          "history-round-004",
+          {
+            maxRounds:
+              10
+          }
+        );
+      }
+    );
+
+    it(
+      "returns history backfill errors",
+      async () => {
+        const email =
+          `history-api-error-${Date.now()}@example.com`;
+
+        const password =
+          "HistoryApiErrorPassword123";
+
+        await createUser(
+          email,
+          password,
+          "admin"
+        );
+
+        const token =
+          await login(
+            email,
+            password
+          );
+
+        backfillMock
+          .mockRejectedValueOnce(
+            new Error(
+              "Aviator provider request failed with HTTP 403."
+            )
+          );
+
+        const response =
+          await request(app)
+            .post(
+              "/api/aviator-provider/history/backfill"
+            )
+            .set(
+              "Authorization",
+              `Bearer ${token}`
+            )
+            .send({
+              roundId:
+                "history-round-005",
+              maxRounds:
+                20
+            });
+
+        expect(
+          response.status
+        ).toBe(400);
+
+        expect(
+          response.body.success
+        ).toBe(false);
+
+        expect(
+          response.body.error
+        ).toBe(
+          "Aviator provider request failed with HTTP 403."
         );
       }
     );
